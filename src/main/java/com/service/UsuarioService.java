@@ -37,7 +37,6 @@ public class UsuarioService {
     }
     
     
-    
     public boolean validarCredenciales(String correo, String contrasenaIngresada) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(correo);
 
@@ -52,5 +51,10 @@ public class UsuarioService {
 	public Usuario obtenerPorCorreo(String correo) {
 		return usuarioRepository.findByCorreo(correo).orElse(null);
 	}
+	
+	public void eliminarUsuario(Long id) {
+	    usuarioRepository.deleteById(id);
+	}
+
 
 }

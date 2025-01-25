@@ -14,7 +14,9 @@
 <body>
 <div class="container-menu">
 	<div class="centered"> 
-	    <a href="/" class="botonDesplegable">Inicio</a>
+	    <a href="/usuarios/registro-login" class="botonDesplegable">Login/Registro</a>
+	    
+	    <a href="/usuarios/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
 	</div>
     <div class="contcerrarsesion">
     	<a href="${pageContext.request.contextPath}/logout">

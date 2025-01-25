@@ -15,11 +15,9 @@
 <body>
 <div class="container-menu">
 	<div class="centered"> 
-	    <a href="/usuarios/registro-login" class="botonDesplegable">Login</a>
-
-	    <a href="/usuarios/registro-login" class="botonDesplegable">Registro</a>
+	    <a href="/usuarios/registro-login" class="botonDesplegable">Login/Registro</a>
 	    
-	    <a href="/usuarios/registro-login" class="botonDesplegable">Eliminar usuario</a>
+	    <a href="/usuarios/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
 	</div>
 </div>
 

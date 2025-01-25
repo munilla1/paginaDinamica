@@ -5,17 +5,21 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Destruction app</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/pp.css">
+    <link href="navbar.css" rel="stylesheet">
     <link href="contactob.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
 <div class="container-menu">
 	<div class="centered">
-	    <a href="/usuarios/registro-login" class="botonDesplegable">Login/Registro</a>
-	    
-	    <a href="/usuarios/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
+	    <button id="botonDesplegable">☰ Menú</button>
+	    <nav id="menuDesplegable" class="menu-desplegable">
+	        <ul>
+	            <li><a href="RegistroServlet.jsp">
+	                <button class="boton-menu">Inicio</button>
+	            </a></li>
+	        </ul>
+	    </nav>
 	</div>
     <div class="contcerrarsesion">
     	<a href="${pageContext.request.contextPath}/logout">
@@ -26,18 +30,14 @@
 </div>
 
 <video class="video-container" id="video-bg" muted autoplay loop>
-    <source src="${pageContext.request.contextPath}/imagenes/espacio.mp4" type="video/mp4">
+    <source src="espacio.mp4" type="video/mp4">
 </video>
 
 <div class="contenedor-mensaje">
     <div class="cont">
-        <img class="telefono" src="${pageContext.request.contextPath}/imagenes/palomita-correcto.png">
-        <h3 class="mensajeconf">Bienvenido: ${sessionScope.usuario.nombre}, acceso confirmado.</h3>
+        <img class="telefono" src="palomita-correcto.png">
+        <h3 class="mensajeconf">Su usuario ha sido eliminado.</h3>
     </div>
-</div>
-
-<div class="container-botonJugar">
-	<a href="/" class="botonDesplegable">Jugar ya!</a>
 </div>
 
 <div class="pie-pagina">
