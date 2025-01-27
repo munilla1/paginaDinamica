@@ -5,6 +5,8 @@ import com.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +29,10 @@ public class UsuarioService {
             throw new Exception("El correo ya está registrado. Usa otro correo.");
         }
         // Encriptar la contraseña antes de guardarla
+        System.out.println("Encriptando contraseña...");
         usuario.setContras(passwordEncoder.encode(usuario.getContras()));
         
+        System.out.println("Guardando en BD: " + usuario);
         return usuarioRepository.save(usuario);
     }
     
@@ -52,9 +56,11 @@ public class UsuarioService {
 		return usuarioRepository.findByCorreo(correo).orElse(null);
 	}
 	
-	public void eliminarUsuario(Long id) {
-	    usuarioRepository.deleteById(id);
+	@Transactional
+	public void eliminarUsuario(String correo) {
+	    usuarioRepository.deleteByCorreo(correo);
 	}
+
 
 
 }

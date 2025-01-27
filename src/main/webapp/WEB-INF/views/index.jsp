@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,9 +15,13 @@
 <body>
 <div class="container-menu">
 	<div class="centered"> 
-	    <a href="/usuarios/registro-login" class="botonDesplegable">Login/Registro</a>
+	    <sec:authorize access="isAnonymous()">
+		    <a href="/registro-login" class="botonDesplegable">Login/Registro</a>
+		</sec:authorize>
 	    
-	    <a href="/usuarios/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
+	    <sec:authorize access="isAnonymous()">
+		    <a href="/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
+	    </sec:authorize>
 	</div>
 </div>
 

@@ -1,12 +1,15 @@
 package com.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
+
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements Serializable {
+	
+	private static final long serialVersionUID = 1L; // Requerido para serialización
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

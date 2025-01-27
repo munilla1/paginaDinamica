@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,16 +14,25 @@
 <body>
 <div class="container-menu">
 	<div class="centered">
-	    <a href="/usuarios/registro-login" class="botonDesplegable">Login/Registro</a>
+	    <sec:authorize access="isAnonymous()">
+		    <a href="/registro-login" class="botonDesplegable">Login/Registro</a>
+		</sec:authorize>
 	    
-	    <a href="/usuarios/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
+	    <sec:authorize access="isAnonymous()">
+		    <a href="/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
+	    </sec:authorize>
 	</div>
     <div class="contcerrarsesion">
-    	<a href="${pageContext.request.contextPath}/logout">
-        <input type="submit" id="cerrarsesion" value="Cerrar sesión">
-        </a>
-        <p class="mensaje">Usuario: ${sessionScope.nombre}</p>
-    </div>
+	    <c:if test="${not empty sessionScope.usuario}">
+	        <p class="mensaje">Usuario: ${sessionScope.usuario.nombre}</p>
+	        <form action="${pageContext.request.contextPath}/logout" method="POST">
+	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	            <button type="submit" id="cerrarsesion">Cerrar sesión</button>
+	        </form>
+	    </c:if>
+	</div>
+
+
 </div>
 
 <video class="video-container" id="video-bg" muted autoplay loop>
@@ -37,8 +47,9 @@
 </div>
 
 <div class="container-botonJugar">
-	<a href="/" class="botonDesplegable">Jugar ya!</a>
+    <button class="botonJugar">Jugar 🚀</button>
 </div>
+
 
 <div class="pie-pagina">
     <h3 class="pie">Esta es una web creada por A.Munilla. 2023-2024</h3>
