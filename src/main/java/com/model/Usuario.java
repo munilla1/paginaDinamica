@@ -6,37 +6,34 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 public class Usuario implements Serializable {
 	
 	private static final long serialVersionUID = 1L; // Requerido para serialización
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String nombre;
-    private String correo;
-    private String contras;
+    private String username;
+    
+    private String password;
+    private boolean enabled = true;
 
     public Usuario() {}
 
-    public Usuario(String nombre, String correo, String contras) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.contras = contras;
+    public Usuario(String username, String password, boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
     }
 
     // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getusername() { return username; }
+    public void setusername(String username) { this.username = username; }
 
-    public String getCorreo() { return correo; }
-    public void setCorreo(String correo) { this.correo = correo; }
+    public String getpassword() { return password; }
+    public void setpassword(String password) { this.password = password; }
     
-    public String getContras() { return contras; }
-    public void setContras(String contras) { this.contras = contras; }
+    public boolean isEnabled() { return enabled; }
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
 }

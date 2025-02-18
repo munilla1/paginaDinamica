@@ -14,13 +14,11 @@
 <body>
 <div class="container-menu">
 	<div class="centered"> 
-	    <sec:authorize access="isAnonymous()">
+
 		    <a href="/registro-login" class="botonDesplegable">Login/Registro</a>
-		</sec:authorize>
-	    
-	    <sec:authorize access="isAnonymous()">
+
 		    <a href="/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
-	    </sec:authorize>
+
 	</div>
 </div>
 

@@ -85,21 +85,21 @@ public class MiControlador {
     }
 
     @PostMapping("/acceso")
-    public String validarUsuario(@RequestParam String correo, 
+    public String validarUsuario(@RequestParam String username, 
                                  @RequestParam String contrasenaIngresada, 
                                  HttpSession session, 
                                  Model model) {
         try {
-            System.out.println("🔹 Intentando autenticación para: " + correo);
+            System.out.println("🔹 Intentando autenticación para: " + username);
 
             // Buscar usuario en la base de datos
-            Usuario usuario = usuarioService.obtenerPorCorreo(correo);
+            Usuario usuario = usuarioService.obtenerPorUsername(username);
 
-            if (usuario == null || !passwordEncoder.matches(contrasenaIngresada, usuario.getContras())) {
+            if (usuario == null || !passwordEncoder.matches(contrasenaIngresada, usuario.getpassword())) {
                 throw new Exception("❌ Correo o contraseña incorrectos.");
             }
 
-            System.out.println("✅ Usuario autenticado correctamente: " + usuario.getCorreo());
+            System.out.println("✅ Usuario autenticado correctamente: " + usuario.getusername());
             session.setAttribute("usuario", usuario); // 🔐 Guarda el usuario en la sesión manualmente
             
             return "accesoCorrecto"; // ✅ Redirige a accesoCorrecto si la autenticación es exitosa
@@ -112,29 +112,29 @@ public class MiControlador {
     }
 
     @PostMapping("/eliminar")
-    public String eliminarUsuario(@RequestParam String correo, 
+    public String eliminarUsuario(@RequestParam String username, 
                                   @RequestParam String contrasenaIngresada, 
                                   Model model, 
                                   HttpSession session) {
         try {
-            System.out.println("🔹 Intentando eliminar usuario con correo: " + correo);
+            System.out.println("🔹 Intentando eliminar usuario con correo: " + username);
 
             // Buscar usuario en la base de datos
-            Usuario usuario = usuarioService.obtenerPorCorreo(correo);
+            Usuario usuario = usuarioService.obtenerPorUsername(username);
 
 
             // Validar la contraseña encriptada
-            if (!passwordEncoder.matches(contrasenaIngresada, usuario.getContras())) {
+            if (!passwordEncoder.matches(contrasenaIngresada, usuario.getpassword())) {
                 throw new BadCredentialsException("❌ Correo o contraseña incorrectos.");
             }
 
             // Eliminar el usuario
-            usuarioService.eliminarUsuario(usuario.getCorreo());
+            usuarioService.eliminarUsuario(usuario.getusername());
 
             // Invalidar la sesión
             session.invalidate();
 
-            System.out.println("✅ Usuario eliminado correctamente: " + correo);
+            System.out.println("✅ Usuario eliminado correctamente: " + username);
 
             return "usuarioEliminado"; // ✅ Redirige si la eliminación es exitosa
 

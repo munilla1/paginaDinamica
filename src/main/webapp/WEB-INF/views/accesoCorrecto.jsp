@@ -14,17 +14,15 @@
 <body>
 <div class="container-menu">
 	<div class="centered">
-	    <sec:authorize access="isAnonymous()">
+
 		    <a href="/registro-login" class="botonDesplegable">Login/Registro</a>
-		</sec:authorize>
-	    
-	    <sec:authorize access="isAnonymous()">
+
 		    <a href="/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
-	    </sec:authorize>
+
 	</div>
     <div class="contcerrarsesion">
 	    <c:if test="${not empty sessionScope.usuario}">
-	        <p class="mensaje">Usuario: ${sessionScope.usuario.nombre}</p>
+	        <p class="mensaje">Usuario: ${sessionScope.usuario.username}</p>
 	        <form action="${pageContext.request.contextPath}/logout" method="POST">
 	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	            <button type="submit" id="cerrarsesion">Cerrar sesión</button>
@@ -42,7 +40,7 @@
 <div class="contenedor-mensaje">
     <div class="cont">
         <img class="telefono" src="${pageContext.request.contextPath}/imagenes/palomita-correcto.png">
-        <h3 class="mensajeconf">Bienvenido: ${sessionScope.usuario.nombre}, acceso confirmado.</h3>
+        <h3 class="mensajeconf">Bienvenido: ${sessionScope.usuario.username}, acceso confirmado.</h3>
     </div>
 </div>
 
