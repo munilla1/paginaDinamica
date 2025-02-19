@@ -38,7 +38,7 @@ public class SecurityConfig {
         http
 	        .csrf(csrf -> csrf.disable())
 	        .authorizeHttpRequests(request -> request
-        		.requestMatchers("/", "/registro-login", "/acceso", "/accesoCorrecto", "/guardar", "/datosGuardados").permitAll() // 🔥 Permitir acceso sin login
+        		.requestMatchers("/error", "/", "/registro-login", "/acceso", "/accesoCorrecto", "/guardar", "/datosGuardados").permitAll() // 🔥 Permitir acceso sin login
         		.requestMatchers("/DarDeBaja").authenticated()
         		.requestMatchers("/WEB-INF/views/**").permitAll() // ✅ Permitir acceso a JSPs
                 .requestMatchers("/css/**", "/imagenes/**").permitAll() // ✅ Permitir archivos estáticos

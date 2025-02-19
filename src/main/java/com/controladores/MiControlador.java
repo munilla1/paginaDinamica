@@ -49,28 +49,6 @@ public class MiControlador {
         return "DarDeBaja";
     }
     
-    
-	/*
-	 * @GetMapping("/acceso") public String accesoCorrecto(HttpSession session,
-	 * Model model) { Usuario usuario = (Usuario) session.getAttribute("usuario");
-	 * 
-	 * if (usuario == null) { return "redirect:/index"; // ✅ Redirigir a inicio en
-	 * vez de login }
-	 * 
-	 * model.addAttribute("usuario", usuario); return "accesoCorrecto"; // ✅ Mostrar
-	 * la vista }
-	 */
-
-
-
-	/*
-	 * @GetMapping("/perfil") public String verPerfil(HttpSession session, Model
-	 * model) { Usuario usuario = (Usuario) session.getAttribute("usuario");
-	 * 
-	 * if (usuario != null) { model.addAttribute("usuario", usuario); return
-	 * "perfil"; } else { return "redirect:/registro-login"; // ✅ Redirige en lugar
-	 * de devolver la vista } }
-	 */
 
     @PostMapping("/guardar")
     public String guardarUsuario(@ModelAttribute Usuario usuario, Model model) {
