@@ -8,23 +8,20 @@
     <title>Destruction app</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/pp.css">
-    <link href="contactob.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
 <div class="container-menu">
 	<div class="centered">
-	    <sec:authorize access="isAnonymous()">
+
 		    <a href="/registro-login" class="botonDesplegable">Login/Registro</a>
-		</sec:authorize>
-	    
-	    <sec:authorize access="isAnonymous()">
+
 		    <a href="/DarDeBaja" class="botonDesplegable">Eliminar usuario</a>
-	    </sec:authorize>
+
 	</div>
     <div class="contcerrarsesion">
 	    <c:if test="${not empty sessionScope.usuario}">
-	        <p class="mensaje">Usuario: ${sessionScope.usuario.nombre}</p>
+	        <p class="mensaje">Usuario: ${sessionScope.usuario.username}</p>
 	        <form action="${pageContext.request.contextPath}/logout" method="POST">
 	            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	            <button type="submit" id="cerrarsesion">Cerrar sesión</button>
@@ -42,7 +39,7 @@
 <div class="contenedor-mensaje">
     <div class="cont">
         <img class="telefono" src="${pageContext.request.contextPath}/imagenes/palomita-correcto.png">
-        <h3 class="mensajeconf">Bienvenido: ${sessionScope.usuario.nombre}, acceso confirmado.</h3>
+        <h3 class="mensajeconf">Bienvenido: ${sessionScope.usuario.username}, acceso confirmado.</h3>
     </div>
 </div>
 

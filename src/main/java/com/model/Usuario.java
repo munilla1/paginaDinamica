@@ -27,10 +27,10 @@ public class Usuario implements Serializable {
 
     // Getters y Setters
 
-    public String getusername() { return username; }
+    public String getUsername() { return username; }
     public void setusername(String username) { this.username = username; }
 
-    public String getpassword() { return password; }
+    public String getPassword() { return password; }
     public void setpassword(String password) { this.password = password; }
     
     public boolean isEnabled() { return enabled; }

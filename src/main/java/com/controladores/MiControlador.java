@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,24 +34,6 @@ public class MiControlador {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
-
-    @GetMapping("/registro-login")
-    public String login() {
-        return "registro-login"; // Busca WEB-INF/views/registro-login.jsp
-    }
-
-
-    @GetMapping("/DarDeBaja")
-    public String mostrarFormularioBaja(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "DarDeBaja";
-    }
-    
-
     @PostMapping("/guardar")
     public String guardarUsuario(@ModelAttribute Usuario usuario, Model model) {
         try {
@@ -67,27 +51,34 @@ public class MiControlador {
                                  @RequestParam String contrasenaIngresada, 
                                  HttpSession session, 
                                  Model model) {
+
         try {
             System.out.println("🔹 Intentando autenticación para: " + username);
 
-            // Buscar usuario en la base de datos
             Usuario usuario = usuarioService.obtenerPorUsername(username);
 
-            if (usuario == null || !passwordEncoder.matches(contrasenaIngresada, usuario.getpassword())) {
+            if (usuario == null || !passwordEncoder.matches(contrasenaIngresada, usuario.getPassword())) {
                 throw new Exception("❌ Correo o contraseña incorrectos.");
             }
 
-            System.out.println("✅ Usuario autenticado correctamente: " + usuario.getusername());
-            session.setAttribute("usuario", usuario); // 🔐 Guarda el usuario en la sesión manualmente
-            
-            return "accesoCorrecto"; // ✅ Redirige a accesoCorrecto si la autenticación es exitosa
+            System.out.println("✅ Usuario autenticado correctamente: " + usuario.getUsername());
+
+            session.setAttribute("usuario", usuario); // Guarda el usuario en la sesión manualmente
+
+            model.addAttribute("usuario", usuario);
+
+            return "redirect:/accesoCorrecto"; // La vista de acceso correcto, que debe estar configurada en tu proyecto
 
         } catch (Exception e) {
+            
             System.out.println("❌ Error de autenticación: " + e.getMessage());
+            
             model.addAttribute("error", e.getMessage());
-            return "registro-login"; // ✅ Devuelve la vista con el mensaje de error
+
+            return "registro-login"; // La vista de login, que debe estar configurada en tu proyecto
         }
     }
+
 
     @PostMapping("/eliminar")
     public String eliminarUsuario(@RequestParam String username, 
@@ -102,19 +93,16 @@ public class MiControlador {
 
 
             // Validar la contraseña encriptada
-            if (!passwordEncoder.matches(contrasenaIngresada, usuario.getpassword())) {
+            if (!passwordEncoder.matches(contrasenaIngresada, usuario.getPassword())) {
                 throw new BadCredentialsException("❌ Correo o contraseña incorrectos.");
             }
 
             // Eliminar el usuario
-            usuarioService.eliminarUsuario(usuario.getusername());
-
-            // Invalidar la sesión
-            session.invalidate();
+            usuarioService.eliminarUsuario(usuario.getUsername());
 
             System.out.println("✅ Usuario eliminado correctamente: " + username);
 
-            return "usuarioEliminado"; // ✅ Redirige si la eliminación es exitosa
+            return "redirect:/usuarioEliminado"; // ✅ Redirige si la eliminación es exitosa
 
         } catch (UsernameNotFoundException | BadCredentialsException e) {
             System.out.println("❌ Error al eliminar usuario: " + e.getMessage());
@@ -126,9 +114,6 @@ public class MiControlador {
             return "DarDeBaja"; // ✅ Muestra mensaje de error genérico
         }
     }
-
-
-
 
 }
 

@@ -1,0 +1,109 @@
+package com.controladores;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.model.Usuario;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class PageController {
+
+    @GetMapping("/datosGuardados")
+    public String datosGuardadosPage(HttpServletRequest request) {
+        return verificarSesion(request);
+    }
+
+    @GetMapping("/index")
+    public String indexPage(HttpServletRequest request) {
+    	return "index";
+    }
+    
+    
+    @GetMapping("/accesoCorrecto")
+    public String accesoCorrectoPage(HttpServletRequest request, Model model) {
+        String sesionVerificada = verificarSesion(request);  // Verificamos si la sesión es válida
+
+        // Si el usuario está autenticado, pasamos el objeto usuario al modelo
+        if (sesionVerificada != null) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");  // Obtener usuario de la sesión
+                model.addAttribute("usuario", usuario);  // Pasar el usuario al modelo
+            }
+            return "accesoCorrecto";  // Redirige a la vista de login o cualquier otra vista
+        }
+        return "accesoCorrecto";  // Si no está autenticado, muestra el login
+    }
+
+
+    @GetMapping("/registro-login")
+    public String registroLoginPage(HttpServletRequest request, Model model) {
+        String sesionVerificada = verificarSesion(request);  // Verificamos si la sesión es válida
+
+        // Si el usuario está autenticado, pasamos el objeto usuario al modelo
+        if (sesionVerificada != null) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");  // Obtener usuario de la sesión
+                model.addAttribute("usuario", usuario);  // Pasar el usuario al modelo
+            }
+            return "registro-login";  // Redirige a la vista de login o cualquier otra vista
+        }
+        return "registro-login";  // Si no está autenticado, muestra el login
+    }
+    
+    @GetMapping("/DarDeBaja")
+    public String eliminarUsuPage(HttpServletRequest request, Model model) {
+        String sesionVerificada = verificarSesion(request);  // Verificamos si la sesión es válida
+
+        // Si el usuario está autenticado, pasamos el objeto usuario al modelo
+        if (sesionVerificada != null) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");  // Obtener usuario de la sesión
+                model.addAttribute("usuario", usuario);  // Pasar el usuario al modelo
+            }
+            return "DarDeBaja";  // Redirige a la vista de login o cualquier otra vista
+        }
+        return "DarDeBaja";  // Si no está autenticado, muestra el login
+    }
+
+    
+    @GetMapping("/usuarioEliminado")
+    public String usuarioEliminadoPage(HttpServletRequest request, Model model) {
+        String sesionVerificada = verificarSesion(request);  // Verificamos si la sesión es válida
+
+        // Si el usuario está autenticado, pasamos el objeto usuario al modelo
+        if (sesionVerificada != null) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");  // Obtener usuario de la sesión
+                model.addAttribute("usuario", usuario);  // Pasar el usuario al modelo
+            }
+            return "usuarioEliminado";  // Redirige a la vista de login o cualquier otra vista
+        }
+        return "usuarioEliminado";  // Si no está autenticado, muestra el login
+    }
+
+
+    private String verificarSesion(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);  // false para no crear una nueva sesión si no existe
+        if (session == null || session.getAttribute("usuario") == null) {
+            return "redirect:/login";  // Redirigir al login si no hay sesión
+        }
+        return "pagina";  // Redirigir a la página correspondiente si el usuario está autenticado
+    }
+    
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();  // Invalida la sesión
+        return "index";  // Redirige al login
+    }
+
+}

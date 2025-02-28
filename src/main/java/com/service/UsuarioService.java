@@ -25,18 +25,18 @@ public class UsuarioService {
 
     public Usuario guardarUsuario(Usuario usuario) throws Exception {
         // Verificar si el correo ya está registrado
-        if (usuarioRepository.existsByUsername(usuario.getusername())) {
+        if (usuarioRepository.existsByUsername(usuario.getUsername())) {
             throw new Exception("El correo ya está registrado. Usa otro correo.");
         }
         
         // Validar que la contraseña no sea null o vacía
-        if (usuario.getpassword() == null || usuario.getpassword().trim().isEmpty()) {
+        if (usuario.getPassword() == null || usuario.getPassword().trim().isEmpty()) {
             throw new Exception("La contraseña no puede estar vacía.");
         }
         
         // Encriptar la contraseña antes de guardarla
         System.out.println("Encriptando contraseña...");
-        usuario.setpassword(passwordEncoder.encode(usuario.getpassword()));
+        usuario.setpassword(passwordEncoder.encode(usuario.getPassword()));
         usuario.setEnabled(true);
         
         System.out.println("Guardando en BD: " + usuario);
@@ -75,7 +75,7 @@ public class UsuarioService {
             Usuario usuario = usuarioOpt.get();
             
             // Verificar si la contraseña es correcta
-            return passwordEncoder.matches(contrasenaIngresada, usuario.getpassword());
+            return passwordEncoder.matches(contrasenaIngresada, usuario.getPassword());
         } else {
             // Lanzar excepción si el usuario no se encuentra
             throw new Exception("Usuario no encontrado");
