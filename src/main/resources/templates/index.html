@@ -14,6 +14,15 @@
         <a th:href="@{/registro-login}" class="botonDesplegable">Login/Registro</a>
         <a th:href="@{/DarDeBaja}" class="botonDesplegable">Eliminar usuario</a>
     </div>
+    <div class="contcerrarsesion">
+        <div th:if="${usuario != null}">
+            <p class="mensaje">Usuario: <span th:text="${usuario.username}">Nombre de usuario</span></p>
+            <form th:action="@{/logout}" method="POST">
+                <input type="hidden"/>
+                <button type="submit" id="cerrarsesion">Cerrar sesion</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <div class="imgPrincipal">
@@ -23,6 +32,10 @@
 <video class="video-container" id="video-bg" muted autoplay loop>
     <source th:src="@{/imagenes/espacio.mp4}" type="video/mp4">
 </video>
+
+<div class="container-botonJugar">
+    <button class="botonJugar">Jugar  🚀</button>
+</div>
 
 <div class="pie-pagina">
     <h3 class="pie">Esta es una web creada por A.Munilla. 2023-2024</h3>

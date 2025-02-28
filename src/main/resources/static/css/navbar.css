@@ -14,6 +14,7 @@
 }
 
 .centered{
+	margin-left: 190px;
 	flex: 1; /* Ocupa el espacio restante */
     text-align: center;
 }

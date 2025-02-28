@@ -17,10 +17,21 @@ public class PageController {
     public String datosGuardadosPage(HttpServletRequest request) {
         return verificarSesion(request);
     }
+    
+    @GetMapping("/")
+    public String indexPage(HttpServletRequest request, Model model) {
+        String sesionVerificada = verificarSesion(request);  // Verificamos si la sesión es válida
 
-    @GetMapping("/index")
-    public String indexPage(HttpServletRequest request) {
-    	return "index";
+        // Si el usuario está autenticado, pasamos el objeto usuario al modelo
+        if (sesionVerificada != null) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");  // Obtener usuario de la sesión
+                model.addAttribute("usuario", usuario);  // Pasar el usuario al modelo
+            }
+            return "index";  // Redirige a la vista de login o cualquier otra vista
+        }
+        return "index";  // Si no está autenticado, muestra el login
     }
     
     
@@ -101,9 +112,15 @@ public class PageController {
     
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.invalidate();  // Invalida la sesión
-        return "index";  // Redirige al login
+        HttpSession session = request.getSession(false); // Obtener sesión si existe
+        
+        if (session == null || session.getAttribute("usuario") == null) {
+            return "redirect:/index"; // Redirige al login si la sesión ha expirado
+        }
+
+        session.invalidate();
+        return "redirect:/";  // Redirige a la página de inicio (login)
     }
+
 
 }

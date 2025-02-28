@@ -49,6 +49,14 @@
 		    <artifactId>spring-security-taglibs</artifactId>
 		    <version>6.2.1</version> <!-- Usa la versión más reciente de tu proyecto -->
 		</dependency>
+		<dependency>
+		    <groupId>jakarta.servlet</groupId>
+		    <artifactId>jakarta.servlet-api</artifactId>
+		    <version>6.0.0</version>  <!-- O la versión compatible con tu proyecto -->
+		    <scope>provided</scope>
+		</dependency>
+
+
 
 	
 	    <!-- MySQL -->
