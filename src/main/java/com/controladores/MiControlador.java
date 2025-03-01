@@ -1,23 +1,16 @@
 package com.controladores;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.model.Usuario;
 import com.service.UsuarioService;
@@ -35,11 +28,12 @@ public class MiControlador {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/guardar")
-    public String guardarUsuario(@ModelAttribute Usuario usuario, Model model) {
+    public String guardarUsuario(@ModelAttribute Usuario usuario, Model model, HttpSession session) {
         try {
         	System.out.println("Guardando usuario: " + usuario);
             usuarioService.guardarUsuario(usuario);
-            return "datosGuardados"; // ✅ Redirige después de guardar
+            model.addAttribute("mensajeRegistro", "Tu usuario se registró correctamente.");
+            return "registro-login"; // ✅ Redirige después de guardar
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "registro-login";
@@ -101,8 +95,9 @@ public class MiControlador {
             usuarioService.eliminarUsuario(usuario.getUsername());
 
             System.out.println("✅ Usuario eliminado correctamente: " + username);
+            model.addAttribute("mensajeEliminacion", "El usuario ha sido eliminado correctamente.");
 
-            return "redirect:/usuarioEliminado"; // ✅ Redirige si la eliminación es exitosa
+            return "DarDeBaja"; // ✅ Redirige si la eliminación es exitosa
 
         } catch (UsernameNotFoundException | BadCredentialsException e) {
             System.out.println("❌ Error al eliminar usuario: " + e.getMessage());
@@ -114,8 +109,40 @@ public class MiControlador {
             return "DarDeBaja"; // ✅ Muestra mensaje de error genérico
         }
     }
+    
+    @PostMapping("/modificar")
+    public String modificarUsuario(HttpSession session, 
+                                    @RequestParam String username, 
+                                    @RequestParam String correo, 
+                                    @RequestParam String password, 
+                                    Model model) {
+        try {
+            // Obtener el usuario actual desde la sesión
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            if (usuario == null) {
+                throw new Exception("Usuario no encontrado en la sesión.");
+            }
+
+            // Actualizar los datos del usuario
+            usuario.setUsername(username);
+            usuario.setCorreo(correo);
+            usuario.setPassword(password);
+
+            // Actualizar en la base de datos
+            usuarioService.actualizarUsuario(usuario);
+
+            // Actualizar el objeto usuario en la sesión
+            session.setAttribute("usuario", usuario);
+
+            model.addAttribute("mensaje", "Tus datos se han actualizado correctamente.");
+            return "perfil"; // Página de perfil
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "perfil"; // Página de perfil con error
+        }
+    }
+
+
+
 
 }
-
-
-

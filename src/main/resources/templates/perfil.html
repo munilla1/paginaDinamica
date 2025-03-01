@@ -16,31 +16,40 @@
         <a th:href="@{/perfil}" class="botonDesplegable" th:if="${session.usuario != null}">Perfil</a>
     </div>
     <div class="contcerrarsesion">
-        <div th:if="${usuario != null}">
-            <p class="mensaje">Usuario: <span th:text="${usuario.username}">Nombre de usuario</span></p>
+        <div th:if="${session.usuario != null}">
+            <p class="mensaje">Usuario: <span th:text="${session.usuario.username}">Nombre de usuario</span></p>
             <form th:action="@{/logout}" method="POST">
                 <input type="hidden"/>
-                <button type="submit" id="cerrarsesion">Cerrar sesión</button>
+                <button type="submit" id="cerrarsesion">Cerrar sesion</button>
             </form>
         </div>
     </div>
+</div>
+
+<div class="formularios">
+	<div class="form">
+	    <h1><b>Modificar Usuario</b></h1>
+	    <div th:if="${mensaje != null}" class="alert alert-success alert-pequeno">
+		    <p th:text="${mensaje}"></p>
+		</div>
+	    <form th:action="@{/modificar}" method="POST">
+	        <label for="username">Nuevo Nombre de Usuario:</label>
+	        <input type="text" id="username" name="username" class="etivertical" required>
+	        <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" class="etivertical" required>
+	        <label for="password">Nueva Contraseña:</label>
+	        <input type="password" id="password" name="password" class="etipass" required>
+	        <button class="botonRegistrarse" type="submit" id="enviar">Actualizar</button>
+	    </form>
+	</div>
 </div>
 
 <video class="video-container" id="video-bg" muted autoplay loop>
     <source th:src="@{/imagenes/espacio.mp4}" type="video/mp4">
 </video>
 
-<div class="contenedor-mensaje">
-    <div class="cont">
-        <img class="telefono" th:src="@{/imagenes/palomita-correcto.png}">
-        <h3 class="mensajeconf">
-		    Bienvenido: <span th:utext="'<b>' + ${usuario.username} + '</b>'">Nombre de usuario</span>, acceso confirmado.
-		</h3>
-    </div>
-</div>
-
 <div class="container-botonJugar">
-    <button class="botonJugar">Jugar  🚀</button>
+    <button class="botonJugar" th:if="${session.usuario != null}">Jugar  🚀</button>
 </div>
 
 <div class="pie-pagina">

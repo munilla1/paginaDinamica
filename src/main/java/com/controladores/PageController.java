@@ -18,6 +18,22 @@ public class PageController {
         return verificarSesion(request);
     }
     
+    @GetMapping("/perfil")
+    public String perfilPage(HttpServletRequest request, Model model) {
+        String sesionVerificada = verificarSesion(request);  // Verificamos si la sesión es válida
+
+        // Si el usuario está autenticado, pasamos el objeto usuario al modelo
+        if (sesionVerificada != null) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuario");  // Obtener usuario de la sesión
+                model.addAttribute("usuario", usuario);  // Pasar el usuario al modelo
+            }
+            return "perfil";  // Redirige a la vista de login o cualquier otra vista
+        }
+        return "perfil";  // Si no está autenticado, muestra el login
+    }
+    
     @GetMapping("/")
     public String indexPage(HttpServletRequest request, Model model) {
         String sesionVerificada = verificarSesion(request);  // Verificamos si la sesión es válida

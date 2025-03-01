@@ -11,12 +11,13 @@
 <body>
     <div class="container-menu">
         <div class="centered">
-            <a th:href="@{/registro-login}" class="botonDesplegable">Login/Registro</a>
+            <a th:href="@{/registro-login}" class="botonDesplegable">Registro/Login</a>
             <a th:href="@{/DarDeBaja}" class="botonDesplegable">Eliminar usuario</a>
+            <a th:href="@{/perfil}" class="botonDesplegable" th:if="${session.usuario != null}">Perfil</a>
         </div>
         <div class="contcerrarsesion">
-            <div th:if="${usuario != null}">
-                <p class="mensaje">Usuario: <span th:text="${usuario.username}">Nombre de usuario</span></p>
+            <div th:if="${session.usuario != null}">
+                <p class="mensaje">Usuario: <span th:text="${session.usuario.username}">Nombre de usuario</span></p>
                 <form th:action="@{/logout}" method="POST">
                     <input type="hidden"/>
                     <button type="submit" id="cerrarsesion">Cerrar sesion</button>
@@ -31,21 +32,26 @@
 
     <div class="formularios">
         <div class="form">
-            <h1>Registro de usuario</h1>
+            <h1><b>Registro de usuario</b></h1>
             <div th:if="${error != null}">
                 <p style="color: red;" th:text="${error}"></p>
             </div>
+            <div th:if="${mensajeRegistro != null}" class="alert alert-success alert-pequeno">
+			    <p th:text="${mensajeRegistro}"></p>
+			</div>
             <form th:action="@{/guardar}" method="POST">
                 <label for="username">Nombre:</label>
                 <input type="text" id="username" name="username" class="etivertical" required>
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password" class="etipass" required>
+                <label for="correo">Correo:</label>
+                <input type="text" id="correo" name="correo" class="etivertical" required>
                 <button class="botonRegistrarse" type="submit" id="enviar">Registrarse</button>
             </form>
         </div>
 
         <div class="form">
-            <h1>Iniciar sesión</h1>
+            <h1><b>Iniciar sesión</b></h1>
             <div th:if="${error != null}">
                 <p style="color: red;" th:text="${error}"></p>
             </div>
@@ -58,6 +64,10 @@
             </form>
         </div>
     </div>
+    
+    <div class="container-botonJugar">
+	    <button class="botonJugar" th:if="${session.usuario != null}">Jugar  🚀</button>
+	</div>
 
     <div class="pie-pagina">
         <h3 class="pie">Esta es una web creada por A.Munilla. 2023-2024</h3>

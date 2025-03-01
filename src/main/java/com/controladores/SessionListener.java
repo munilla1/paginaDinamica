@@ -30,9 +30,6 @@ public class SessionListener implements HttpSessionListener {
             // Invalidar la sesión como si fuera un logout
             session.invalidate();
         }
-        
-        // Aquí podrías redirigir a la página de login si lo necesitas
-        // o simplemente realizar el logout de esta forma
     }
 }
 

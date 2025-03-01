@@ -4,6 +4,7 @@ import com.model.Usuario;
 import com.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,7 @@ public class UsuarioService {
         
         // Encriptar la contraseña antes de guardarla
         System.out.println("Encriptando contraseña...");
-        usuario.setpassword(passwordEncoder.encode(usuario.getPassword()));
-        usuario.setEnabled(true);
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         
         System.out.println("Guardando en BD: " + usuario);
         return usuarioRepository.save(usuario);
@@ -101,6 +101,17 @@ public class UsuarioService {
 	    usuarioRepository.deleteByUsername(username);
 	}
 
+	public Usuario actualizarUsuario(Usuario usuario) throws Exception {
+	    Usuario usuarioExistente = usuarioRepository.findById(usuario.getId())
+	            .orElseThrow(() -> new Exception("El usuario no existe en la base de datos."));
+
+	    // Actualizar los datos
+	    usuarioExistente.setUsername(usuario.getUsername());
+	    usuarioExistente.setCorreo(usuario.getCorreo());
+	    usuarioExistente.setPassword(passwordEncoder.encode(usuario.getPassword())); // Encriptar contraseña
+
+	    return usuarioRepository.save(usuarioExistente);
+	}
 
 
 }

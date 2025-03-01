@@ -10,10 +10,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, String> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	Optional<Usuario> findByUsername(String username);
     
-    
+	boolean existsByCorreo(String email);
+	
+	Optional<Usuario> findById(Long id);
 
     // Verificar si un correo ya existe
     boolean existsByUsername(String username);

@@ -11,12 +11,13 @@
 <body>
 <div class="container-menu">
     <div class="centered">
-        <a th:href="@{/registro-login}" class="botonDesplegable">Login/Registro</a>
+        <a th:href="@{/registro-login}" class="botonDesplegable">Registro/Login</a>
         <a th:href="@{/DarDeBaja}" class="botonDesplegable">Eliminar usuario</a>
+        <a th:href="@{/perfil}" class="botonDesplegable" th:if="${session.usuario != null}">Perfil</a>
     </div>
     <div class="contcerrarsesion">
-        <div th:if="${usuario != null}">
-            <p class="mensaje">Usuario: <span th:text="${usuario.username}">Nombre de usuario</span></p>
+        <div th:if="${session.usuario != null}">
+            <p class="mensaje">Usuario: <span th:text="${session.usuario.username}">Nombre de usuario</span></p>
             <form th:action="@{/logout}" method="POST">
                 <input type="hidden"/>
                 <button type="submit" id="cerrarsesion">Cerrar sesion</button>
@@ -26,7 +27,7 @@
 </div>
 
 <div class="imgPrincipal">
-    <img class="imgPrincipal" th:src="@{/imagenes/destruction_clear.jpg}">
+    <img class="imgPrincipal" th:src="@{/imagenes/destruction.png}">
 </div>
 
 <video class="video-container" id="video-bg" muted autoplay loop>
@@ -34,7 +35,7 @@
 </video>
 
 <div class="container-botonJugar">
-    <button class="botonJugar">Jugar  🚀</button>
+    <button class="botonJugar" th:if="${session.usuario != null}">Jugar  🚀</button>
 </div>
 
 <div class="pie-pagina">
