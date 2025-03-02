@@ -52,7 +52,7 @@ public class MiControlador {
             Usuario usuario = usuarioService.obtenerPorUsername(username);
 
             if (usuario == null || !passwordEncoder.matches(contrasenaIngresada, usuario.getPassword())) {
-                throw new Exception("❌ Correo o contraseña incorrectos.");
+                throw new Exception("❌ Nombre o contraseña incorrectos.");
             }
 
             System.out.println("✅ Usuario autenticado correctamente: " + usuario.getUsername());
@@ -67,7 +67,7 @@ public class MiControlador {
             
             System.out.println("❌ Error de autenticación: " + e.getMessage());
             
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errorDeAcceso", e.getMessage());
 
             return "registro-login"; // La vista de login, que debe estar configurada en tu proyecto
         }
@@ -92,7 +92,7 @@ public class MiControlador {
             }
 
             // Eliminar el usuario
-            usuarioService.eliminarUsuario(usuario.getUsername());
+            usuarioService.eliminarUsuario(usuario.getUsername(), session);
 
             System.out.println("✅ Usuario eliminado correctamente: " + username);
             model.addAttribute("mensajeEliminacion", "El usuario ha sido eliminado correctamente.");
@@ -112,27 +112,22 @@ public class MiControlador {
     
     @PostMapping("/modificar")
     public String modificarUsuario(HttpSession session, 
-                                    @RequestParam String username, 
-                                    @RequestParam String correo, 
-                                    @RequestParam String password, 
-                                    Model model) {
+                                   @RequestParam String username, 
+                                   @RequestParam String correo, 
+                                   @RequestParam String password, 
+                                   Model model) {
         try {
             // Obtener el usuario actual desde la sesión
-            Usuario usuario = (Usuario) session.getAttribute("usuario");
-            if (usuario == null) {
+            Usuario usuarioAutenticado = (Usuario) session.getAttribute("usuario");
+            if (usuarioAutenticado == null) {
                 throw new Exception("Usuario no encontrado en la sesión.");
             }
 
-            // Actualizar los datos del usuario
-            usuario.setUsername(username);
-            usuario.setCorreo(correo);
-            usuario.setPassword(password);
-
-            // Actualizar en la base de datos
-            usuarioService.actualizarUsuario(usuario);
+            // Actualizar el usuario con los nuevos datos
+            Usuario usuarioActualizado = usuarioService.actualizarUsuario(usuarioAutenticado, username, correo, password);
 
             // Actualizar el objeto usuario en la sesión
-            session.setAttribute("usuario", usuario);
+            session.setAttribute("usuario", usuarioActualizado);
 
             model.addAttribute("mensaje", "Tus datos se han actualizado correctamente.");
             return "perfil"; // Página de perfil
@@ -141,8 +136,6 @@ public class MiControlador {
             return "perfil"; // Página de perfil con error
         }
     }
-
-
 
 
 }

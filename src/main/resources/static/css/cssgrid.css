@@ -1,0 +1,421 @@
+#ddboton{
+	background-color: #c0c0c0;
+  	box-shadow: 0px 4px 8px;
+  	color: black;
+}
+
+.dropdown{
+	padding-left: 20px;
+}
+
+/*----------------------------------------------*/
+
+
+
+
+.parent {
+	padding-top: 5%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 8px;
+    color: white;
+    place-items: center;
+}
+
+.tituloTipo1 {
+	grid-row: span 3 / span 3;
+    font-size: 2rem; /* Tamaño grande del título */
+    font-weight: bold; /* Negrita */
+    background: linear-gradient(90deg, #ff8a00, #e52e71); /* Gradiente atractivo */
+    -webkit-background-clip: text; /* Mostrar solo el gradiente en el texto */
+    -webkit-text-fill-color: transparent; /* Hace que el fondo del texto sea transparente */
+    text-align: center; /* Centrar texto */
+    text-transform: uppercase; /* Transformar a mayúsculas */
+    letter-spacing: 3px; /* Espaciado entre letras */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra al texto */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Animación al interactuar */
+}
+
+.tituloTipo1:hover {
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
+    opacity: 0.9; /* Cambia ligeramente la opacidad */
+}
+
+
+.imagenTipo1 {
+    grid-row: span 3 / span 3;
+}
+
+.minutos1 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 1;
+}
+
+.btncan1 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 5;
+    grid-row-start: 1;
+}
+
+.btnCrear1 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 6;
+    grid-row-start: 1;
+}
+
+.tituloTipo2 {
+	grid-row: span 3 / span 3;
+    grid-column-start: 1;
+    grid-row-start: 4;
+    font-size: 2rem; /* Tamaño grande del título */
+    font-weight: bold; /* Negrita */
+    background: linear-gradient(90deg, #ff8a00, #e52e71); /* Gradiente atractivo */
+    -webkit-background-clip: text; /* Mostrar solo el gradiente en el texto */
+    -webkit-text-fill-color: transparent; /* Hace que el fondo del texto sea transparente */
+    text-align: center; /* Centrar texto */
+    text-transform: uppercase; /* Transformar a mayúsculas */
+    letter-spacing: 3px; /* Espaciado entre letras */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra al texto */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Animación al interactuar */
+}
+
+.tituloTipo2:hover {
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
+    opacity: 0.9; /* Cambia ligeramente la opacidad */
+}
+
+.tituloTipo3 {
+	grid-row: span 3 / span 3;
+    grid-column-start: 1;
+    grid-row-start: 7;
+    font-size: 2rem; /* Tamaño grande del título */
+    font-weight: bold; /* Negrita */
+    background: linear-gradient(90deg, #ff8a00, #e52e71); /* Gradiente atractivo */
+    -webkit-background-clip: text; /* Mostrar solo el gradiente en el texto */
+    -webkit-text-fill-color: transparent; /* Hace que el fondo del texto sea transparente */
+    text-align: center; /* Centrar texto */
+    text-transform: uppercase; /* Transformar a mayúsculas */
+    letter-spacing: 3px; /* Espaciado entre letras */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra al texto */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Animación al interactuar */
+}
+
+.tituloTipo3:hover {
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
+    opacity: 0.9; /* Cambia ligeramente la opacidad */
+}
+
+.imagenTipo2 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 2;
+    grid-row-start: 4;
+}
+
+.imagenTipo3 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 2;
+    grid-row-start: 7;
+}
+
+.fuerza1 {
+	padding-left: 20%;
+	grid-column-start: 3;
+    grid-row-start: 2;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.fuerza1:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.resistencia1 {
+	grid-column-start: 3;
+    grid-row-start: 3;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.resistencia1:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.tiempoc2 {
+	grid-column-start: 3;
+    grid-row-start: 4;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.tiempoc2:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.fuerza2 {
+	grid-column-start: 3;
+    grid-row-start: 5;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.fuerza2:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.resistencia2 {
+	grid-column-start: 3;
+    grid-row-start: 6;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.resistencia2:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.tiempoc3 {
+	grid-column-start: 3;
+    grid-row-start: 7;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.tiempoc3:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.fuerza3 {
+	grid-column-start: 3;
+    grid-row-start: 8;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.fuerza3:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.resistencia3 {
+	grid-column-start: 3;
+    grid-row-start: 9;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+	background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.resistencia3:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+.puntos1 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 2;
+}
+
+.puntosr1 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 3;
+}
+
+.minutos2 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 4;
+}
+
+.puntos2 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 5;
+}
+
+.puntosr2 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 6;
+}
+
+.minutos3 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 7;
+}
+
+.puntos3 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 8;
+}
+
+.puntosr3 {
+	width: 90%; /* El ancho será el 50% del contenedor */
+    height: auto; /* Mantendrá la proporción del contenido */
+	font-weight: bold; /* Negrita */
+    grid-column-start: 4;
+    grid-row-start: 9;
+}
+
+.btncan2 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 5;
+    grid-row-start: 4;
+}
+
+.btncan3 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 5;
+    grid-row-start: 7;
+}
+
+.btnCrear2 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 6;
+    grid-row-start: 4;
+}
+
+.btnCrear3 {
+    grid-row: span 3 / span 3;
+    grid-column-start: 6;
+    grid-row-start: 7;
+}
+
+.tiempoc1 {
+	grid-column-start: 3;
+    grid-row-start: 1;
+    font-size: 1rem; /* Tamaño moderado del texto */
+    font-weight: bold; /* Peso intermedio del texto */
+    color: #333; /* Un gris oscuro para no resaltar mucho */
+    background-color: orange; /* Fondo claro y neutro */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Centrar el texto */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    transition: transform 0.2s ease; /* Animación leve */
+}
+
+.tiempoc1:hover {
+    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
+    border-color: #ccc; /* Cambia el color del borde */
+}
+
+        
+        
+
+/*---------------------------------------------------------------*/
+
+.infanteria{
+	width: 130px;
+	height: 130px;
+}
+
+.tanques{
+	width: 130px;
+	height: 130px;
+}
+
+.naves{
+	width: 130px;
+	height: 130px;
+}
+        
