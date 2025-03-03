@@ -11,10 +11,13 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+
+<script src="/js/session.js"></script>
+
 <div class="container-menu">
 	<div class="dropdown">
 	  <button type="button" id="ddboton" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-	    Dropdown button
+	    UNIVERSO
 	  </button>
 	  <ul class="dropdown-menu">
 	    <li><a class="dropdown-item" href="#">Link 1</a></li>
@@ -28,56 +31,94 @@
         <a th:href="@{/perfil}" class="botonDesplegable" th:if="${session.usuario != null}">Perfil</a>
     </div>
     <div class="contcerrarsesion">
-        <div th:if="${session.usuario != null}">
-            <p class="mensaje">Usuario: <span th:text="${session.usuario.username}">Nombre de usuario</span></p>
+        <div class="contMensaje" th:if="${session.usuario != null}">
+            <p class="mensaje">Usuario: <span class="usu" th:text="${session.usuario.username}">Nombre de usuario</span></p>
+        </div>
+        <div class="contDdboton">
             <form th:action="@{/logout}" method="POST">
                 <input type="hidden"/>
-                <button type="submit" id="ddboton" class="btn btn-primary">Cerrar sesion</button>
+                <button type="submit" id="ddboton2" class="btn btn-primary">Cerrar sesion</button>
             </form>
         </div>
     </div>
 </div>
 
 
+<div class="contRecursos">
+    <div class="oro">
+    	<img class="imgOro" th:src="@{/imagenes/oro.png}">
+    	<span id="contadorTiempo1">0</span>
+    </div>
+    <div class="diamantes">
+    	<img class="diaman" th:src="@{/imagenes/piedra.png}">
+    	<span id="contadorTiempo2">0</span>
+    </div>
+    <div class="liquido">3</div>
+    <div class="materiaO">4</div>
+</div>
+    
 
 <div class="parent">
     <div class="tituloTipo1">Infanteria</div>
     <div class="imagenTipo1">
-    	<img class="infanteria" th:src="@{/imagenes/infanteria-espacial.png}">
+    	<img class="infanteria" th:src="@{/imagenes/infanteria.jpg}">
     </div>
-    <div class="tiempoc1">Tiempo creacion:</div>
-    <div class="minutos1">15 min</div>
-    <div class="btncan1">Boton cantidad</div>
-    <div class="btnCrear1">Boton crear</div>
+    <div class="minutos1">15 - minutos</div>
     <div class="tituloTipo2">Tanques</div>
-    <div class="tituloTipo3">Naves</div>
     <div class="imagenTipo2">
-    	<img class="tanques" th:src="@{/imagenes/tanque-espacial.png}">
+    	<img class="tanques" th:src="@{/imagenes/tanque.jpg}">
     </div>
+    <div class="minutos2">45 - minutos</div>
+    <div class="tituloTipo3">Naves</div>
     <div class="imagenTipo3">
-    	<img class="naves" th:src="@{/imagenes/nave-espacial.png}">
+    	<img class="naves" th:src="@{/imagenes/nave.jpg}">
     </div>
-    <div class="fuerza1">Fuerza:</div>
-    <div class="resistencia1">Resistencia:</div>
-    <div class="tiempoc2">Tiempo creacion:</div>
-    <div class="fuerza2">Fuerza:</div>
-    <div class="resistencia2">Resistencia:</div>
-    <div class="tiempoc3">Tiempo creacion:</div>
-    <div class="fuerza3">Fuerza:</div>
-    <div class="resistencia3">Resistencia:</div>
-    <div class="puntos1">8 pts</div>
-    <div class="puntosr1">9 pts</div>
-    <div class="minutos2">45 min</div>
-    <div class="puntos2">22 pts</div>
-    <div class="puntosr2">26 pts</div>
-    <div class="minutos3">55 min</div>
-    <div class="puntos3">30 pts</div>
-    <div class="puntosr3">28 pts</div>
-    <div class="btncan2">Boton cantidad</div>
-    <div class="btncan3">Boton cantidad</div>
-    <div class="btnCrear2">Boton crear</div>
-    <div class="btnCrear3">Boton crear</div>
+    <div class="minutos3">55 - minutos</div>
+    <div class="puntos1">8 - puntos</div>
+    <div class="puntosr1">9 - puntos</div>
+    <div class="puntosr2">26 - puntos</div>
+    <div class="puntos2">22 - puntos</div>
+    <div class="puntos3">30 - puntos</div>
+    <div class="puntosr3">28 - puntos</div>
+    <div class="btncan1">
+	    <div>
+	        <button class="boton-espacial" onclick="decrementar1()">-</button>
+	        <span id="contador1">0</span>
+	        <button class="boton-espacial" onclick="incrementar1()">+</button>
+	    </div>
+	    <p class="coste">Coste unidad: <br>2 Oro - 4 Piedra - 2 Líquido</p>
+	</div>
+    <div class="btncan2">
+	    <div>
+	        <button class="boton-espacial" onclick="decrementar2()">-</button>
+	        <span id="contador2">0</span>
+	        <button class="boton-espacial" onclick="incrementar2()">+</button>
+	    </div>
+	    <p class="coste">Coste unidad: <br>2 Oro - 4 Piedra - 2 Líquido</p>
+	</div>
+    <div class="btncan3">
+	    <div>
+	        <button class="boton-espacial" onclick="decrementar3()">-</button>
+	        <span id="contador3">0</span>
+	        <button class="boton-espacial" onclick="incrementar3()">+</button>
+	    </div>
+	    <p class="coste">Coste unidad: <br>2 Oro - 4 Piedra - 2 Líquido</p>
+	</div>
+    <div class="btnCrear1">
+    	<button class="aceptar-boton" onclick="aceptarValor1()">Crear</button>
+    </div>
+    <div class="btnCrear2">    	
+    	<button class="aceptar-boton" onclick="aceptarValor2()">Crear</button>
+	</div>
+    <div class="btnCrear3">    	
+    	<button class="aceptar-boton" onclick="aceptarValor3()">Crear</button>
+	</div>
+    <div class="tiempoc1">Tiempo creacion</div>
+    <div class="fuerza1">Fuerza</div>
+    <div class="resistencia1">Resistencia</div>
 </div>
+    
+    
     
 
 <video class="video-container" id="video-bg" muted autoplay loop>

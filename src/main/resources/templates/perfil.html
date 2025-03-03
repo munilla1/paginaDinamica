@@ -18,11 +18,13 @@
         <a th:href="@{/perfil}" class="botonDesplegable" th:if="${session.usuario != null}">Perfil</a>
     </div>
     <div class="contcerrarsesion">
-        <div th:if="${session.usuario != null}">
-            <p class="mensaje">Usuario: <span th:text="${session.usuario.username}">Nombre de usuario</span></p>
+        <div class="contMensaje" th:if="${session.usuario != null}">
+            <p class="mensaje">Usuario: <span class="usu" th:text="${session.usuario.username}">Nombre de usuario</span></p>
+        </div>
+        <div class="contDdboton">
             <form th:action="@{/logout}" method="POST">
                 <input type="hidden"/>
-                <button type="submit" id="ddboton" class="btn btn-primary">Cerrar sesion</button>
+                <button type="submit" id="ddboton2" class="btn btn-primary">Cerrar sesion</button>
             </form>
         </div>
     </div>
@@ -51,7 +53,7 @@
 </video>
 
 <div class="container-botonJugar">
-    <button class="botonJugar" th:if="${session.usuario != null}">Jugar  🚀</button>
+    <a class="botonJugar" th:href="@{/pagPrincipalJuego}" th:if="${session.usuario != null}">Jugar  🚀</a>
 </div>
 
 <div class="pie-pagina">
