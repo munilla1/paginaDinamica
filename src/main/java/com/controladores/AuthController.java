@@ -37,30 +37,44 @@ public class AuthController {
     private RoleRepository roleRepository;
 
     @GetMapping("/registro-login")
-    public String showLoginForm(@RequestParam(value = "error", required = false) String error, Model model) {
-    	
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-    	    CustomUserDetails usuario = (CustomUserDetails) authentication.getPrincipal();
-    	    System.out.println("Usuario autenticado: " + usuario.getUsername());
-    	}
+    public String showLoginForm(@RequestParam(value = "error", required = false) String error,
+                                @AuthenticationPrincipal CustomUserDetails usuario,
+                                Model model) {
 
-    	
+        // Agregar mensaje de error si existe
         if (error != null) {
             model.addAttribute("errorDeAcceso", "Nombre de usuario o contraseña incorrectos.");
         }
+
+        // Verificar si el usuario está autenticado y agregarlo al modelo
+        if (usuario != null) {
+            System.out.println("Usuario autenticado: " + usuario.getUsername());
+            model.addAttribute("usuario", usuario);
+        }
+
         return "registro-login";
     }
+
     
     @GetMapping("/accesoCorrecto")
-    public String accesoCorrecto(@AuthenticationPrincipal Usuario usuario, Model model) {
+    public String accesoCorrecto(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
         if (usuario == null) {
-            return "registro-login";
+            return "redirect:/registro-login";
         }
+        session.setAttribute("usuario", usuario.getUsuario());
         model.addAttribute("usuario", usuario);
         return "accesoCorrecto";
     }
-
+    
+    @GetMapping("/pagPrincipalJuego")
+    public String vistaPagPrincipal(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
+        if (usuario == null) {
+            return "redirect:/registro-login";
+        }
+        session.setAttribute("usuario", usuario.getUsuario());
+        model.addAttribute("usuario", usuario);
+        return "pagPrincipalJuego";
+    }
 
     @PostMapping("/guardar")
     public String registerUser(@RequestParam String username,

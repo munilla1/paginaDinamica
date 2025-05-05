@@ -27,7 +27,10 @@ public class UsuarioService {
 
     public Usuario findByUsername(String username) {
         return usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> {
+                    System.out.println("Usuario no encontrado: " + username);
+                    return new UsernameNotFoundException("Usuario no encontrado: " + username);
+                });
     }
 
     public void save(Usuario usuario) {

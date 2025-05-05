@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll())
+                .userDetailsService(userDetailsService)
                 .sessionManagement(session -> session
                 		.sessionFixation().newSession()
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
