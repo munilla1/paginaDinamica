@@ -37,8 +37,8 @@
 <div class="contenedor-mensaje">
     <div class="cont">
         <img class="telefono" th:src="@{/imagenes/palomita-correcto.png}">
-        <h3 class="mensajeconf">
-		    Bienvenido: <span th:utext="'<b>' + ${usuario.username} + '</b>'">Nombre de usuario</span>, acceso confirmado.
+        <h3 class="mensajeconf" th:if="${usuario != null}">
+		    Bienvenido: <b th:text="${usuario.username}"></b>, acceso confirmado.
 		</h3>
     </div>
 </div>
