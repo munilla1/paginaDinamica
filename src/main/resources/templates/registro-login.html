@@ -57,7 +57,7 @@
         <div class="form">
             <h1><b>Iniciar sesión</b></h1>
             <div th:if="${errorDeAcceso != null}">
-                <p style="color: red;" th:text="${error}"></p>
+                <p style="color: red;" th:text="${errorDeAcceso}"></p>
             </div>
             <form th:action="@{/login}" method="POST">
                 <label for="username">Nombre de usuario:</label>
