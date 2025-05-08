@@ -22,6 +22,9 @@ import com.repository.RoleRepository;
 import com.service.CustomUserDetails;
 import com.service.UsuarioService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -101,6 +104,27 @@ public class AuthController {
         model.addAttribute("mensajeRegistro", "Usuario registrado exitosamente.");
         return "registro-login";
     }
+    
+    @PostMapping("/modificar")
+    public String actualizarPerfil(@RequestParam String username,
+                                   @RequestParam String correo,
+                                   @RequestParam String password,
+                                   @AuthenticationPrincipal UserDetails userDetails,
+                                   Model model) {
+
+        Usuario usuario = usuarioService.findByUsername(userDetails.getUsername());
+
+        usuario.setUsername(username);
+        usuario.setCorreo(correo);
+        usuario.setPassword(passwordEncoder.encode(password)); // ⚠️ Codifica la nueva contraseña
+
+        usuarioService.save(usuario); // Esto hace un update si el usuario ya existe
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("mensaje", "Perfil actualizado correctamente.");
+
+        return "perfil"; // O vuelve a cargar el formulario si prefieres
+    }
 
     @GetMapping("/perfil")
     public String userProfile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -109,10 +133,56 @@ public class AuthController {
         return "perfil";
     }
 
-    @PostMapping("/DarDeBaja")
-    public String deleteUser(@RequestParam Long id) {
-        usuarioService.delete(id);
+    @PostMapping("/eliminar")
+    public String deleteUser(@AuthenticationPrincipal UserDetails userDetails,
+                             @RequestParam String username,
+                             @RequestParam String contrasenaIngresada,
+                             Model model,
+                             HttpServletRequest request,
+                             HttpServletResponse response) {
+
+        // Verificación de identidad
+        if (!userDetails.getUsername().equals(username)) {
+            model.addAttribute("error", "No puedes eliminar otro usuario que no seas tú.");
+            return "DarDeBaja";
+        }
+
+        // Obtener usuario
+        Usuario usuario = usuarioService.findByUsername(username);
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no encontrado.");
+            return "DarDeBaja";
+        }
+
+        // Verificar contraseña
+        if (!passwordEncoder.matches(contrasenaIngresada, usuario.getPassword())) {
+            model.addAttribute("error", "Contraseña incorrecta.");
+            return "DarDeBaja";
+        }
+
+        // Eliminar usuario
+        usuarioService.delete(usuario);
+
+        // Invalida sesión y contexto de seguridad
+        SecurityContextHolder.clearContext();
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // Borra cookies de sesión (opcional pero recomendable)
+        Cookie cookie = new Cookie("JSESSIONID", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        // Redirige al login o página principal
         return "redirect:/";
+    }
+    
+    @GetMapping("/DarDeBaja")
+    public String vistaDeleteUser(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
+        return "DarDeBaja";
     }
 }
 

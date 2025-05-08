@@ -1,3 +1,16 @@
+body {
+    background: linear-gradient(135deg, #0f0f0f, #1a1a2e);
+    animation: backgroundShift 15s ease infinite;
+    color: #00ffea;
+    font-family: 'Orbitron', sans-serif;
+}
+
+@keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 #ddboton{
 	background-color: #c0c0c0;
   	box-shadow: 0px 4px 8px;
@@ -62,6 +75,7 @@
 }
 
 .minutos1 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
@@ -167,49 +181,8 @@
     grid-row-start: 4;
 }
 
-.fuerza1 {
-	grid-column-start: 4;
-    grid-row-start: 1;
-    font-size: 1.15rem; /* Tamaño moderado del texto */
-    font-weight: bold; /* Peso intermedio del texto */
-    color: #333; /* Un gris oscuro para no resaltar mucho */
-    background-color: #00ffcc; /* Fondo claro y neutro */
-    border: 1px solid #ddd; /* Borde suave */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 6px 15px; /* Espaciado interno */
-    text-align: center; /* Centrar el texto */
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    transition: transform 0.2s ease; /* Animación leve */
-}
-
-.fuerza1:hover {
-    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
-    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
-    border-color: #ccc; /* Cambia el color del borde */
-}
-
-.resistencia1 {
-	grid-column-start: 5;
-    grid-row-start: 1;
-    font-size: 1.15rem; /* Tamaño moderado del texto */
-    font-weight: bold; /* Peso intermedio del texto */
-    color: #333; /* Un gris oscuro para no resaltar mucho */
-    background-color: #00ffcc; /* Fondo claro y neutro */
-    border: 1px solid #ddd; /* Borde suave */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 6px 15px; /* Espaciado interno */
-    text-align: center; /* Centrar el texto */
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    transition: transform 0.2s ease; /* Animación leve */
-}
-
-.resistencia1:hover {
-    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
-    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
-    border-color: #ccc; /* Cambia el color del borde */
-}
-
 .puntos1 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -221,6 +194,7 @@
 }
 
 .puntosr1 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -232,6 +206,7 @@
 }
 
 .minutos2 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -243,6 +218,7 @@
 }
 
 .puntos2 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -254,6 +230,7 @@
 }
 
 .puntosr2 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -265,6 +242,7 @@
 }
 
 .minutos3 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -276,6 +254,7 @@
 }
 
 .puntos3 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -287,6 +266,7 @@
 }
 
 .puntosr3 {
+	font-family: 'Orbitron', sans-serif; 
 	padding: 15px;
 	border-radius: 9px;
 	color: #f5385f;
@@ -335,32 +315,13 @@
     grid-row-start: 4;
 }
 
-.tiempoc1 {
-	grid-column-start: 3;
-    grid-row-start: 1;
-    font-size: 1.15rem; /* Tamaño moderado del texto */
-    font-weight: bold; /* Peso intermedio del texto */
-    color: #333; /* Un gris oscuro para no resaltar mucho */
-    background-color: #00ffcc; /* Fondo claro y neutro */
-    border: 1px solid #ddd; /* Borde suave */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 6px 15px; /* Espaciado interno */
-    text-align: center; /* Centrar el texto */
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    transition: transform 0.2s ease; /* Animación leve */
-}
-
-.tiempoc1:hover {
-    transform: scale(1.05); /* Ligero aumento al pasar el cursor */
-    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el cursor */
-    border-color: #ccc; /* Cambia el color del borde */
-}
-
 .coste{
+	align-items: center;
+    justify-content: center;
 	font-size: 0.8rem;
 }
 
-.aceptar-boton {
+.aceptar-boton, .tituloTipo1, .tituloTipo2, .tituloTipo3{
     margin-top: 15px; /* Espaciado respecto al resto de los elementos */
     padding: 10px 25px; /* Tamaño del botón */
     background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
@@ -381,6 +342,57 @@
     background: linear-gradient(45deg, #282c34, #3a3f47); /* Invertir colores */
 }
 
+.fuerza1{
+	grid-column-start: 4;
+    grid-row-start: 1;
+    margin-top: 15px; /* Espaciado respecto al resto de los elementos */
+    padding: 10px 25px; /* Tamaño del botón */
+    background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
+    border: 2px solid #00ffcc; /* Borde futurista */
+    color: #00ffcc; /* Color del texto */
+    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
+    font-size: 1.2rem; /* Tamaño del texto */
+    font-weight: bold;
+    border-radius: 10px; /* Bordes redondeados */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de neón */
+}
+
+.resistencia1{
+	grid-column-start: 5;
+    grid-row-start: 1;
+    margin-top: 15px; /* Espaciado respecto al resto de los elementos */
+    padding: 10px 25px; /* Tamaño del botón */
+    background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
+    border: 2px solid #00ffcc; /* Borde futurista */
+    color: #00ffcc; /* Color del texto */
+    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
+    font-size: 1.2rem; /* Tamaño del texto */
+    font-weight: bold;
+    border-radius: 10px; /* Bordes redondeados */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de neón */
+}
+
+.tiempoc1{
+	grid-column-start: 3;
+    grid-row-start: 1;
+    margin-top: 15px; /* Espaciado respecto al resto de los elementos */
+    padding: 10px 25px; /* Tamaño del botón */
+    background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
+    border: 2px solid #00ffcc; /* Borde futurista */
+    color: #00ffcc; /* Color del texto */
+    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
+    font-size: 1.2rem; /* Tamaño del texto */
+    font-weight: bold;
+    border-radius: 10px; /* Bordes redondeados */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de neón */
+}
+
         
 
 /*---------------------------------------------------------------*/
@@ -388,16 +400,19 @@
 .infanteria{
 	width: 160px;
 	height: 120px;
+	padding-bottom: 5px;
 }
 
 .tanques{
 	width: 160px;
 	height: 120px;
+	padding-bottom: 5px;
 }
 
 .naves{
 	width: 160px;
 	height: 120px;
+	padding-bottom: 5px;
 }
 
 /*-----------------------------------------------------------*/

@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" th:href="@{/css/pp.css}">
     <link rel="stylesheet" th:href="@{/css/cssgrid.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -27,7 +28,7 @@
 	</div>
     <div class="centered">
         <a th:href="@{/registro-login}" class="botonDesplegable">Registro/Login</a>
-        <a th:href="@{/DarDeBaja}" class="botonDesplegable">Eliminar usuario</a>
+        <a th:href="@{/DarDeBaja}" class="botonDesplegable" th:if="${session.usuario != null}">Eliminar usuario</a>
         <a th:href="@{/perfil}" class="botonDesplegable" th:if="${session.usuario != null}">Perfil</a>
     </div>
     <div class="contcerrarsesion">
@@ -74,19 +75,18 @@
     	<img class="naves" th:src="@{/imagenes/nave.jpg}">
     </div>
     <div class="minutos3">55 - minutos</div>
-    <div class="puntos1">8 - puntos</div>
-    <div class="puntosr1">9 - puntos</div>
-    <div class="puntosr2">26 - puntos</div>
-    <div class="puntos2">22 - puntos</div>
-    <div class="puntos3">30 - puntos</div>
-    <div class="puntosr3">28 - puntos</div>
+    <div class="puntos1">8 - zx</div>
+    <div class="puntosr1">9 - zh</div>
+    <div class="puntosr2">26 - zh</div>
+    <div class="puntos2">22 - zx</div>
+    <div class="puntos3">30 - zx</div>
+    <div class="puntosr3">28 - zh</div>
     <div class="btncan1">
 	    <div>
 	        <button class="boton-espacial" onclick="decrementar1()">-</button>
 	        <span id="contador1">0</span>
 	        <button class="boton-espacial" onclick="incrementar1()">+</button>
 	    </div>
-	    <p class="coste">Coste unidad: <br>2 Oro - 4 Piedra - 2 Líquido</p>
 	</div>
     <div class="btncan2">
 	    <div>
@@ -94,7 +94,6 @@
 	        <span id="contador2">0</span>
 	        <button class="boton-espacial" onclick="incrementar2()">+</button>
 	    </div>
-	    <p class="coste">Coste unidad: <br>2 Oro - 4 Piedra - 2 Líquido</p>
 	</div>
     <div class="btncan3">
 	    <div>
@@ -102,7 +101,6 @@
 	        <span id="contador3">0</span>
 	        <button class="boton-espacial" onclick="incrementar3()">+</button>
 	    </div>
-	    <p class="coste">Coste unidad: <br>2 Oro - 4 Piedra - 2 Líquido</p>
 	</div>
     <div class="btnCrear1">
     	<button class="aceptar-boton" onclick="aceptarValor1()">Crear</button>
@@ -113,7 +111,7 @@
     <div class="btnCrear3">    	
     	<button class="aceptar-boton" onclick="aceptarValor3()">Crear</button>
 	</div>
-    <div class="tiempoc1">Tiempo creacion</div>
+    <div class="tiempoc1">Construcción</div>
     <div class="fuerza1">Fuerza</div>
     <div class="resistencia1">Resistencia</div>
 </div>

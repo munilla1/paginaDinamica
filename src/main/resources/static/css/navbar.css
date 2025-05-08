@@ -101,7 +101,7 @@
 
 .container-botonJugar {
     padding-top: 25px;
-    padding-bottom: 10px;
+    padding-bottom: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,7 +120,6 @@
     background: #333;
     color: white;
     text-align: center;
-    padding: 5px 0;
     
 }
 .pie{
