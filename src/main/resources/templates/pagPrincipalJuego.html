@@ -28,6 +28,7 @@
 	</div>
     <div class="centered">
         <a th:href="@{/registro-login}" class="botonDesplegable">Registro/Login</a>
+        <a th:href="@{/checkout}" class="botonDesplegable">Ir a Checkout</a>
         <a th:href="@{/DarDeBaja}" class="botonDesplegable" th:if="${session.usuario != null}">Eliminar usuario</a>
         <a th:href="@{/perfil}" class="botonDesplegable" th:if="${session.usuario != null}">Perfil</a>
     </div>

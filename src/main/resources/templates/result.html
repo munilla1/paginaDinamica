@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Result Form</title>
+</head>
+<body>
+<h2>Transaction Result:</h2>
+
+<div th:if="${payment != null}">
+    <div style="border: 1px solid #e0e0e0; padding: 20px;">
+        <p><strong>ID:</strong> <span th:text="${payment.id}"></span></p>
+        <p><strong>Amount:</strong> $<span th:text="${payment.amount}"></span></p>
+        <p><strong>Currency:</strong> <span th:text="${payment.currency}"></span></p>
+        <p><strong>Status:</strong> <span th:text="${payment.status}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${payment.stripeEmail}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${payment.description}"></span></p>
+        <p><strong>Created At:</strong> <span th:text="${payment.createdAt}"></span></p>
+    </div>
+</div>
+<div th:if="${payment == null}">
+    <p>No payment found!</p>
+</div>
+
+</body>
+</html>

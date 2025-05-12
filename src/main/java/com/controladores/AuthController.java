@@ -1,10 +1,11 @@
 package com.controladores;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,13 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model.ERole;
+import com.model.PaymentRequest;
 import com.model.Role;
 import com.model.Usuario;
 import com.repository.RoleRepository;
 import com.service.CustomUserDetails;
+import com.service.PaymentService;
 import com.service.UsuarioService;
 
 import jakarta.servlet.http.Cookie;
@@ -38,6 +42,9 @@ public class AuthController {
     
     @Autowired
     private RoleRepository roleRepository;
+    
+    @Autowired
+    private PaymentService paymentService;
 
     @GetMapping("/registro-login")
     public String showLoginForm(@RequestParam(value = "error", required = false) String error,
