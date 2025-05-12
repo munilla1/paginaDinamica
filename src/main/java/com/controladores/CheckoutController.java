@@ -3,6 +3,7 @@ package com.controladores;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -37,38 +38,13 @@ public class CheckoutController {
     @GetMapping("/checkout")
     public String showCheckoutForm(Model model) {
         model.addAttribute("stripePublicKey", stripePublicKey);
-        model.addAttribute("currencies", Currency.getAvailableCurrencies());
+        List<Currency> allowedCurrencies = List.of(
+                Currency.getInstance("USD"),
+                Currency.getInstance("EUR")
+            );
+        model.addAttribute("currencies", allowedCurrencies);
         return "checkout";
     }
-
-	/*
-	 * @PostMapping("/checkout") public String processPayment(@RequestParam String
-	 * description,
-	 * 
-	 * @RequestParam BigDecimal amount,
-	 * 
-	 * @RequestParam String currency,
-	 * 
-	 * @RequestParam String email,
-	 * 
-	 * @RequestParam String stripeToken, // Aquí recibirás el token de Stripe
-	 * RedirectAttributes redirectAttributes) {
-	 * 
-	 * System.out.println("Token de Stripe: " + stripeToken); try { // Crea una
-	 * solicitud para procesar el pago PaymentRequest request = new
-	 * PaymentRequest(description, amount, currency, email, stripeToken);
-	 * 
-	 * // Procesa el pago con la API de Stripe PaymentResponse response =
-	 * paymentService.processPayment(request);
-	 * 
-	 * // Agrega el paymentId al modelo para redirigir al resultado
-	 * redirectAttributes.addAttribute("paymentId", response.paymentIntentId());
-	 * redirectAttributes.addFlashAttribute("success", "Pago exitoso!");
-	 * 
-	 * return "redirect:/result"; } catch (Exception e) {
-	 * redirectAttributes.addFlashAttribute("error", "Error en el pago: " +
-	 * e.getMessage()); return "redirect:/result"; } }
-	 */
     
     @PostMapping(value = "/checkout", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
