@@ -139,6 +139,13 @@ public class AuthController {
         model.addAttribute("usuario", usuario);
         return "perfil";
     }
+    
+    @GetMapping("/infografias")
+    public String userInfografias(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Usuario usuario = usuarioService.findByUsername(userDetails.getUsername());
+        model.addAttribute("usuario", usuario);
+        return "infografias";
+    }
 
     @PostMapping("/eliminar")
     public String deleteUser(@AuthenticationPrincipal UserDetails userDetails,

@@ -21,5 +21,11 @@
     <p>No payment found!</p>
 </div>
 
+<div th:if="${isLoggedIn} and ${payment != null}">
+    <form method="get" action="/view-pdf">
+        <button type="submit">Descargar infografia</button>
+    </form>
+</div>
+
 </body>
 </html>

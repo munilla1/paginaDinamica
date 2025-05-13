@@ -25,8 +25,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/registro-login", "/guardar", "/css/**", "/js/**", "/imagenes/**").permitAll()
-                        .requestMatchers("/checkout").permitAll()
-                        .requestMatchers("/process-payment").authenticated()
+                        .requestMatchers("/process-payment", "/view-pdf", "/checkout", "/pdfs").authenticated()
                         .requestMatchers("/user").hasRole("USER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
@@ -45,7 +44,6 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .build();
     }
-
 
 	@Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
