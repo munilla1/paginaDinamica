@@ -17,8 +17,8 @@
         <ul>
             <li><a th:href="@{/pagPrincipalJuego}">Inicio</a></li>
             <li><a th:href="@{/infografias}">Infografias</a></li>
-            <li><a th:href="@{/DarDeBaja}" th:if="${session.usuario != null}">Borrar usuario</a></li>
             <li><a th:href="@{/perfil}" th:if="${session.usuario != null}">Perfil</a></li>
+            <li><a th:href="@{/DarDeBaja}" th:if="${session.usuario != null}">Borrar usuario</a></li>
         </ul>
     </nav>
     <div class="contcerrarsesion">
@@ -37,13 +37,46 @@
     <video class="video-container" id="video-bg" muted autoplay loop>
         <source th:src="@{/imagenes/espacio.mp4}" type="video/mp4">
     </video>
-
-    <a th:href="@{/checkout}" class="botonDesplegable">Ir a pagar infografia</a>
     
-    
-    <div class="container-botonJugar">
-	    <a class="botonJugar" th:href="@{/pagPrincipalJuego}" th:if="${session.usuario != null}">Jugar  🚀</a>
+    <div class="cartas">
+	    <div class="card-container">
+	        <div class="card">
+	            <img th:src="@{/imagenes/balon.jpg}" alt="Imagen 1">
+	            <div class="card-content">
+	                <h2>Título 1</h2>
+	                <p>Descripción interesante de la carta 1.</p>
+	            </div>
+	        </div>
+	    </div>
+	    <form th:action="@{/checkout}" method="get">
+	        <button type="submit" class="custom-button">Adquirir - 12€</button>
+	    </form>
+	    <div class="card-container">
+	        <div class="card">
+	            <img th:src="@{/imagenes/cesto.jpg}" alt="Imagen 2">
+	            <div class="card-content">
+	                <h2>Título 2</h2>
+	                <p>Texto con información relevante.</p>
+	            </div>
+	        </div>
+	    </div>
+	    <form th:action="@{/checkout}" method="get">
+	        <button type="submit" class="custom-button">Adquirir - 12€</button>
+	    </form>
+	    <div class="card-container">
+	        <div class="card">
+	            <img th:src="@{/imagenes/golf.jpg}" alt="Imagen 3">
+	            <div class="card-content">
+	                <h2>Título 3</h2>
+	                <p>Detalles llamativos sobre la carta.</p>
+	            </div>
+	        </div>
+	    </div>
+	    <form th:action="@{/checkout}" method="get">
+	        <button type="submit" class="custom-button">Adquirir - 12€</button>
+	    </form>
 	</div>
+    
 
     <div class="pie-pagina">
         <h3 class="pie">Esta es una web creada por A.Munilla. 2023-2024</h3>

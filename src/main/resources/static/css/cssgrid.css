@@ -12,11 +12,13 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: #333;
-    padding: px; /* Menos espacio para un diseño más compacto */
+    padding: 15px; /* Menos espacio para un diseño más compacto */
+    flex-wrap: wrap;
 }
 
 .logo {
     width: 240px; /* Reducción del tamaño de la imagen */
+    height: auto;
     margin-left: 55px;
 }
 
@@ -35,6 +37,7 @@ body {
 
 .menu ul li {
     margin: 0 10px;
+    display: inline-block;
 }
 
 .menu ul li a {
@@ -66,8 +69,8 @@ body {
 }
 
 .contDdboton button {
-    background-color: #ff5555;
-    color: white;
+    background-color: #fcc85c;
+    color: black;
     border: none;
     padding: 0px 15px; /* Botón más compacto */
     border-radius: 12px;
@@ -77,6 +80,29 @@ body {
 
 .contDdboton button:hover {
     background-color: #cc4444;
+}
+
+/* 🔹 Diseño responsive */
+@media screen and (max-width: 768px) {
+    .contenedor {
+        flex-direction: column; /* Coloca los elementos en una columna */
+        align-items: center;
+    }
+
+    .menu ul {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: center;
+        gap: 10px;
+    }
+
+    .menu ul li a {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+    .logo {
+        width: 120px; /* Reduce el tamaño del logo en pantallas pequeñas */
+    }
 }
 
 

@@ -21,8 +21,8 @@
         <ul>
             <li><a th:href="@{/pagPrincipalJuego}">Inicio</a></li>
             <li><a th:href="@{/infografias}">Infografias</a></li>
-            <li><a th:href="@{/DarDeBaja}" th:if="${session.usuario != null}">Borrar usuario</a></li>
             <li><a th:href="@{/perfil}" th:if="${session.usuario != null}">Perfil</a></li>
+            <li><a th:href="@{/DarDeBaja}" th:if="${session.usuario != null}">Borrar usuario</a></li>
         </ul>
     </nav>
     <div class="contcerrarsesion">
