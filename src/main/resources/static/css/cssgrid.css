@@ -1,480 +1,83 @@
+
+
 body {
-    background: linear-gradient(135deg, #0f0f0f, #1a1a2e);
-    animation: backgroundShift 15s ease infinite;
-    color: #00ffea;
-    font-family: 'Orbitron', sans-serif;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-@keyframes backgroundShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+.contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    padding: px; /* Menos espacio para un diseño más compacto */
 }
 
-#ddboton{
-	background-color: #c0c0c0;
-  	box-shadow: 0px 4px 8px;
-  	color: black;
-  	font-weight: bold;
-  	font-family: sans-serif;
-  	height: 40px;
-  	width: 170px;
+.logo {
+    width: 240px; /* Reducción del tamaño de la imagen */
+    margin-left: 55px;
 }
 
-#ddboton2{
-	background-color: #c0c0c0;
-  	box-shadow: 0px 4px 8px;
-  	color: black;
-  	height: 40px;
-  	width: 120px;
+.menu {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
 }
 
-.dropdown{
-	padding-left: 20px;
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
 }
 
-/*----------------------------------------------*/
+.menu ul li {
+    margin: 0 10px;
+}
 
-
-.parent {
-	padding-left: 7%;
-	padding-right: 7%;
-	padding-top: 2%;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 0px;
+.menu ul li a {
+    text-decoration: none;
     color: white;
-    place-items: center;
+    font-size: 22px; /* Reducción de tamaño */
+    padding: 6px 20px;
+    transition: background 0.3s ease;
 }
 
-.tituloTipo1 {
-	grid-column-start: 1;
-    grid-row-start: 2;
-    font-size: 1.7rem; /* Tamaño grande del título */
-    font-weight: bold; /* Negrita */
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-    color: #00ffcc; /* Color del texto */
-    text-align: center; /* Centrar texto */
-    text-transform: uppercase; /* Transformar a mayúsculas */
-    letter-spacing: 3px; /* Espaciado entre letras */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra al texto */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Animación al interactuar */
+.menu ul li a:hover {
+    background-color: #555;
+    border-radius: 5px;
 }
 
-.tituloTipo1:hover {
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
-    opacity: 0.9; /* Cambia ligeramente la opacidad */
-}
-
-
-.imagenTipo1 {
-    grid-column-start: 2;
-    grid-row-start: 2;
-}
-
-.minutos1 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	color: #f5385f;
-	font-weight: bold; /* Negrita */
-    grid-column-start: 3;
-    grid-row-start: 2;
-}
-
-.btncan1 {
-	grid-column-start: 6;
-    grid-row-start: 2;
+.contcerrarsesion {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
-    font-size: 2rem;
-    color: #00ffcc; /* Color futurista */
-    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; /* Efecto de luz neón */
+    background-color: #444;
+    padding: 0px 10px; /* Contenedor más pequeño y alargado */
+    border-radius: 15px;
+    color: white;
 }
 
-.boton-espacial {
-    background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-    color: #00ffcc; /* Color del texto */
-    padding: 2px 10px;
-    border-radius: 10px;
-    font-size: 1.5rem;
-    font-weight: bold;
+.contMensaje {
+    margin-right: 8px;
+    font-size: 15px; /* Texto más pequeño */
+}
+
+.contDdboton button {
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    padding: 0px 15px; /* Botón más compacto */
+    border-radius: 12px;
+    font-size: 15px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de brillo */
 }
 
-.boton-espacial:hover {
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
-    box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc; /* Más brillo al pasar el cursor */
+.contDdboton button:hover {
+    background-color: #cc4444;
 }
-
-#contador {
-    min-width: 50px; /* Ancho mínimo para mantener el diseño limpio */
-    text-align: center;
-}
-
-
-.btnCrear1 {
-    grid-column-start: 7;
-    grid-row-start: 2;
-}
-
-.tituloTipo2 {
-	grid-column-start: 1;
-    grid-row-start: 3;
-    font-size: 1.7rem; /* Tamaño grande del título */
-    font-weight: bold; /* Negrita */
-    background: linear-gradient(90deg, #ff8a00, #e52e71); /* Gradiente atractivo */
-    background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-    color: #00ffcc; /* Color del texto */
-    text-align: center; /* Centrar texto */
-    text-transform: uppercase; /* Transformar a mayúsculas */
-    letter-spacing: 3px; /* Espaciado entre letras */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra al texto */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Animación al interactuar */
-}
-
-.tituloTipo2:hover {
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
-    opacity: 0.9; /* Cambia ligeramente la opacidad */
-}
-
-.tituloTipo3 {
-	grid-column-start: 1;
-    grid-row-start: 4;
-    font-size: 1.7rem; /* Tamaño grande del título */
-    font-weight: bold; /* Negrita */
-    background: linear-gradient(90deg, #ff8a00, #e52e71); /* Gradiente atractivo */
-    background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-    color: #00ffcc; /* Color del texto */
-    text-align: center; /* Centrar texto */
-    text-transform: uppercase; /* Transformar a mayúsculas */
-    letter-spacing: 3px; /* Espaciado entre letras */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Sombra al texto */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Animación al interactuar */
-}
-
-.tituloTipo3:hover {
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
-    opacity: 0.9; /* Cambia ligeramente la opacidad */
-}
-
-.imagenTipo2 {
-    grid-column-start: 2;
-    grid-row-start: 3;
-}
-
-.imagenTipo3 {
-    grid-column-start: 2;
-    grid-row-start: 4;
-}
-
-.puntos1 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 4;
-    grid-row-start: 2;
-}
-
-.puntosr1 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 5;
-    grid-row-start: 2;
-}
-
-.minutos2 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 3;
-    grid-row-start: 3;
-}
-
-.puntos2 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 4;
-    grid-row-start: 3;
-}
-
-.puntosr2 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 5;
-    grid-row-start: 3;
-}
-
-.minutos3 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 3;
-    grid-row-start: 4;
-}
-
-.puntos3 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 4;
-    grid-row-start: 4;
-}
-
-.puntosr3 {
-	font-family: 'Orbitron', sans-serif; 
-	padding: 15px;
-	border-radius: 9px;
-	color: #f5385f;
-	background: linear-gradient(45deg, #282c34, #3a3f47); /* Fondo metálico oscuro */
-    border: 2px solid #00ffcc; /* Borde brillante */
-	font-weight: bold; /* Negrita */
-    grid-column-start: 5;
-    grid-row-start: 4;
-}
-
-.btncan2 {
-	grid-column-start: 6;
-    grid-row-start: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
-    font-size: 2rem;
-    color: #00ffcc; /* Color futurista */
-    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; /* Efecto de luz neón */
-}
-
-.btncan3 {
-	grid-column-start: 6;
-    grid-row-start: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
-    font-size: 2rem;
-    color: #00ffcc; /* Color futurista */
-    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; /* Efecto de luz neón */
-}
-
-.btnCrear2 {
-	grid-column-start: 7;
-    grid-row-start: 3;
-}
-
-.btnCrear3 {
-    grid-column-start: 7;
-    grid-row-start: 4;
-}
-
-.coste{
-	align-items: center;
-    justify-content: center;
-	font-size: 0.8rem;
-}
-
-.aceptar-boton, .tituloTipo1, .tituloTipo2, .tituloTipo3{
-    margin-top: 15px; /* Espaciado respecto al resto de los elementos */
-    padding: 10px 25px; /* Tamaño del botón */
-    background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
-    border: 2px solid #00ffcc; /* Borde futurista */
-    color: #00ffcc; /* Color del texto */
-    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
-    font-size: 1.2rem; /* Tamaño del texto */
-    font-weight: bold;
-    border-radius: 10px; /* Bordes redondeados */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de neón */
-}
-
-.aceptar-boton:hover {
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el cursor */
-    box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc; /* Más brillo */
-    background: linear-gradient(45deg, #282c34, #3a3f47); /* Invertir colores */
-}
-
-.fuerza1{
-	grid-column-start: 4;
-    grid-row-start: 1;
-    margin-top: 15px; /* Espaciado respecto al resto de los elementos */
-    padding: 10px 25px; /* Tamaño del botón */
-    background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
-    border: 2px solid #00ffcc; /* Borde futurista */
-    color: #00ffcc; /* Color del texto */
-    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
-    font-size: 1.2rem; /* Tamaño del texto */
-    font-weight: bold;
-    border-radius: 10px; /* Bordes redondeados */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de neón */
-}
-
-.resistencia1{
-	grid-column-start: 5;
-    grid-row-start: 1;
-    margin-top: 15px; /* Espaciado respecto al resto de los elementos */
-    padding: 10px 25px; /* Tamaño del botón */
-    background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
-    border: 2px solid #00ffcc; /* Borde futurista */
-    color: #00ffcc; /* Color del texto */
-    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
-    font-size: 1.2rem; /* Tamaño del texto */
-    font-weight: bold;
-    border-radius: 10px; /* Bordes redondeados */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de neón */
-}
-
-.tiempoc1{
-	grid-column-start: 3;
-    grid-row-start: 1;
-    margin-top: 15px; /* Espaciado respecto al resto de los elementos */
-    padding: 10px 25px; /* Tamaño del botón */
-    background: linear-gradient(45deg, #3a3f47, #282c34); /* Fondo metálico */
-    border: 2px solid #00ffcc; /* Borde futurista */
-    color: #00ffcc; /* Color del texto */
-    font-family: 'Orbitron', sans-serif; /* Fuente estilo espacial */
-    font-size: 1.2rem; /* Tamaño del texto */
-    font-weight: bold;
-    border-radius: 10px; /* Bordes redondeados */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px #00ffcc, inset 0 0 10px #00ffcc; /* Efecto de neón */
-}
-
-        
-
-/*---------------------------------------------------------------*/
-
-.infanteria{
-	width: 160px;
-	height: 120px;
-	padding-bottom: 5px;
-}
-
-.tanques{
-	width: 160px;
-	height: 120px;
-	padding-bottom: 5px;
-}
-
-.naves{
-	width: 160px;
-	height: 120px;
-	padding-bottom: 5px;
-}
-
-/*-----------------------------------------------------------*/
-
-
-
-.contRecursos {
-	background-color: gray;
-	color: white;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-    gap: 2px;
-    opacity: 0.8;
-}
-    
-.oro {
-    grid-column-start: 4;
-    display: flex; /* Alinea los elementos en fila */
-    align-items: center; /* Centra verticalmente */
-    gap: 8px; /* Espaciado entre la imagen y el contador */
-}
-
-.diamantes {
-    grid-column-start: 5;
-}
-
-.liquido {
-    grid-column-start: 6;
-}
-
-.materiaO {
-    grid-column-start: 7;
-}
-
-.imgOro {
-	width: 40px;
-	height: 40px;
-}
-        
-.diaman {
-	width: 30px;
-	height: 30px;
-}
-
-#contadorTiempo1 {
-    font-family: 'Orbitron', sans-serif; /* Fuente futurista */
-    font-size: 1.5rem;
-    color: #ffd700; /* Color dorado */
-    text-shadow: 0px 0px 5px rgba(255, 223, 0, 0.7); /* Brillo suave */
-}
-
-#contadorTiempo2 {
-    font-family: 'Orbitron', sans-serif; /* Fuente futurista */
-    font-size: 1.5rem;
-    color: #ffd700; /* Color dorado */
-    text-shadow: 0px 0px 5px rgba(255, 223, 0, 0.7); /* Brillo suave */
-}
-
-        
-
-
 
 
         

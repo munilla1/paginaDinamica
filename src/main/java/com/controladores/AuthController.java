@@ -191,7 +191,7 @@ public class AuthController {
         response.addCookie(cookie);
 
         // Redirige al login o página principal
-        return "redirect:/";
+        return "redirect:/registro-login";
     }
     
     @GetMapping("/DarDeBaja")

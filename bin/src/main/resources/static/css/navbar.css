@@ -2,49 +2,50 @@
 
 
 /*-----------------menu--------------------*/
-.container-menu{
+/* Contenedor principal */
+.container-menu {
     background-color: rgb(92, 83, 73);
-    align-items: center;
-    opacity: 0.8;
     display: flex;
-    justify-content: space-between; /* Alinea los elementos al principio y al final del contenedor */
+    align-items: center;
+    justify-content: space-between;
     max-width: 100%;
-    margin: 0 auto; /* Centrar el contenido */
-    padding: 10px;
+    margin: 0 auto;
+    padding: 5px;
 }
 
-.centered{
-	flex: 1; /* Ocupa el espacio restante */
-    text-align: center;
+/* Estilo para centrar los botones */
+.centered {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
+    justify-content: center; /* Centra horizontalmente */
+    flex-wrap: wrap; /* Permite que los botones se ajusten en varias filas */
+    flex: 1;
 }
 
-.menu-desplegable {
-    display: none;
-}
-
-/* Estilo del botón desplegable */
+/* Botones responsivos */
 .botonDesplegable {
-    margin-right: 20px;
-    padding: 10px 20px;
+    width: 150px; /* Tamaño fijo */
+    height: 40px;
+    padding: 10px;
+    margin-left: 20px;
     font-size: 16px;
     cursor: pointer;
     background-color: rgb(244, 221, 191);
     box-shadow: 0px 4px 8px;
-    border: none; /* Elimina el borde */
-    text-decoration: none; /* Elimina subrayado */
-    color: black; /* Evita el color azul de los links */
-    display: inline-block;
+    border: none;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    display: flex;
+    align-items: center; /* Centra el texto verticalmente */
+    justify-content: center; /* Centra el texto horizontalmente */
 }
 
 /* Efecto al hacer clic */
 .botonDesplegable:active {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-#botonDesplegable:focus + #menuDesplegable,
-#menuDesplegable:hover {
-  display: block;
-}
 
 .video-container {
     position: relative;
@@ -99,8 +100,8 @@
 }
 
 .container-botonJugar {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 25px;
+    padding-bottom: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,8 +120,7 @@
     background: #333;
     color: white;
     text-align: center;
-    padding: 10px 0;
-    opacity: 0.9;
+    
 }
 .pie{
     font-family: 'Times New Roman', Times, serif;
@@ -163,6 +163,7 @@
 
 .formularios {
 	padding-top: 20px;
+	padding-bottom: 40px;
 	justify-content: center;
     display: flex;
     gap: 20px;
@@ -234,23 +235,24 @@
 }
 
 .contcerrarsesion{
-	width: 200px;
-}
-
-#cerrarsesion{
-	padding: 5px 10px;
-  	font-size: 16px;
-  	cursor: pointer;
-	background-color: #c0c0c0;
-  	box-shadow: 0px 4px 8px;
-}
+	display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 8px;
+	width: 180px;
+	margin-right: 40px;
+	margin-top: 10px;
+}  
 
 .mensaje{
 	color: white;
-	font-size: 12px;
+	font-weight: bold;
+	font-size: 16px;
 }
 
-
+.usu{
+	color: #fa6165;
+}
 
 
 

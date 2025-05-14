@@ -57,7 +57,7 @@ public class PaymentService {
                 .setAmount(request.amount().multiply(BigDecimal.valueOf(100)).longValue()) // Convierte el monto a centavos
                 .setCurrency(request.currency().toLowerCase()) // Asegúrate de que la moneda esté en minúsculas
                 .setPaymentMethod(request.stripeToken()) // Usa el paymentMethodId que recibiste
-                .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.MANUAL) // Confirmación manual
+                .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.AUTOMATIC) // Confirmación manual
                 .setConfirm(true) // Confirmación automática
                 .setReturnUrl("http://localhost:8080/result") // URL para redirigir después del pago
                 .build();
@@ -92,7 +92,5 @@ public class PaymentService {
                 paymentIntent.getStatus()
         );
     }
-
-
 }
 
