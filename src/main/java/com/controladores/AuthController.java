@@ -133,12 +133,12 @@ public class AuthController {
         return "perfil"; // O vuelve a cargar el formulario si prefieres
     }
 
-    @GetMapping("/perfil")
-    public String userProfile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Usuario usuario = usuarioService.findByUsername(userDetails.getUsername());
-        model.addAttribute("usuario", usuario);
-        return "perfil";
-    }
+	/*
+	 * @GetMapping("/perfil") public String userProfile(Model
+	 * model, @AuthenticationPrincipal UserDetails userDetails) { Usuario usuario =
+	 * usuarioService.findByUsername(userDetails.getUsername());
+	 * model.addAttribute("usuario", usuario); return "perfil"; }
+	 */
     
     @GetMapping("/infografias")
     public String userInfografias(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -158,20 +158,20 @@ public class AuthController {
         // Verificación de identidad
         if (!userDetails.getUsername().equals(username)) {
             model.addAttribute("error", "No puedes eliminar otro usuario que no seas tú.");
-            return "DarDeBaja";
+            return "perfil";
         }
 
         // Obtener usuario
         Usuario usuario = usuarioService.findByUsername(username);
         if (usuario == null) {
             model.addAttribute("error", "Usuario no encontrado.");
-            return "DarDeBaja";
+            return "perfil";
         }
 
         // Verificar contraseña
         if (!passwordEncoder.matches(contrasenaIngresada, usuario.getPassword())) {
             model.addAttribute("error", "Contraseña incorrecta.");
-            return "DarDeBaja";
+            return "perfil";
         }
 
         // Eliminar usuario
@@ -192,11 +192,6 @@ public class AuthController {
 
         // Redirige al login o página principal
         return "redirect:/registro-login";
-    }
-    
-    @GetMapping("/DarDeBaja")
-    public String vistaDeleteUser(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
-        return "DarDeBaja";
     }
     
     @GetMapping("/")

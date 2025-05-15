@@ -1,10 +1,9 @@
 package com.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Currency;
-import java.util.Set;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,26 +21,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "payments")
-public class PaymentEntity {
+@Table(name = "productos")
+public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal amount;
-    private String description;
-    private String currency;
-    private String status;
-    private String stripeEmail;
-    private String stripeToken;
-    private String paymentIntentId;
-    private LocalDateTime createdAt;
+    private String nombre;
+    private String descripcion;
+    private BigDecimal precio;
+    private boolean disponible;
+    private String rutaArchivo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id") // nombre de la columna FK en la tabla payments
+    @JoinColumn(name = "user_id") // Relación con el usuario que publicó el producto
     private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "producto_id") // 🔹 Relación con Producto
-    private Producto producto;
-
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PaymentEntity> pagos;
 }
+

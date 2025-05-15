@@ -34,6 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.model.PaymentRequest;
 import com.model.PaymentResponse;
+import com.model.Producto;
+import com.repository.ProductoRepository;
 import com.service.PaymentService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -47,26 +49,23 @@ public class CheckoutController {
     private String stripePublicKey;
 
     private final PaymentService paymentService;
-    
-    private final Map<Integer, BigDecimal> preciosProductos = Map.of(
-            1, new BigDecimal("12.00"),
-            2, new BigDecimal("14.00"),
-            3, new BigDecimal("16.00")
-        );
+    private final ProductoRepository productoRepository;
 
-    public CheckoutController(PaymentService paymentService) {
+    public CheckoutController(PaymentService paymentService, ProductoRepository productoRepository) {
         this.paymentService = paymentService;
+        this.productoRepository = productoRepository;
     }
 
     @GetMapping("/checkout")
-    public String mostrarCheckout(@RequestParam("productoId") int productoId, Model model) {
-        BigDecimal precio = preciosProductos.get(productoId);
-        if (precio == null) return "error";
+    public String mostrarCheckout(@RequestParam("productoId") Long productoId, Model model) {
+        Producto producto = productoRepository.findById(productoId)
+            .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
 
-        model.addAttribute("productoId", productoId);
-        model.addAttribute("precio", precio);
+        model.addAttribute("productoId", producto.getId());
+        model.addAttribute("precio", producto.getPrecio());
         model.addAttribute("stripePublicKey", stripePublicKey);
-        model.addAttribute("currencies", List.of(Currency.getInstance("USD"), Currency.getInstance("EUR")));
+        model.addAttribute("currencies", List.of(Currency.getInstance("EUR")));
+
         return "checkout";
     }
     
@@ -75,29 +74,34 @@ public class CheckoutController {
     public ResponseEntity<?> procesarPago(@RequestBody Map<String, Object> requestBody, HttpSession session) {
         System.out.println("📥 Datos recibidos en el backend: " + requestBody);
 
-        int productoId = Integer.parseInt(requestBody.get("productoId").toString());
-        String description = requestBody.get("description").toString();
-        String currency = requestBody.get("currency").toString();
-        String stripeEmail = requestBody.get("email") != null ? requestBody.get("email").toString() : "";
-        String paymentMethodId = requestBody.get("paymentMethodId") != null ? requestBody.get("paymentMethodId").toString() : "";
+        Long productoId = Long.parseLong(requestBody.get("productoId").toString());
+
+        // 🔹 Obtener el producto de la base de datos
+        Producto producto = productoRepository.findById(productoId)
+            .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
+        String description = producto.getDescripcion();
+        String currency = requestBody.getOrDefault("currency", "EUR").toString();
+        String stripeEmail = requestBody.getOrDefault("email", "").toString();
+        String paymentMethodId = requestBody.getOrDefault("paymentMethodId", "").toString();
 
         System.out.println("📥 Producto ID recibido: " + productoId);
         System.out.println("🔹 Email recibido: " + stripeEmail);
         System.out.println("🔹 PaymentMethodId recibido: " + paymentMethodId);
 
-
-        // 🔹 Validación del método de pago
-        if (paymentMethodId == null || paymentMethodId.isEmpty()) {
+        if (paymentMethodId.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("success", false, "message", "Error: Falta el método de pago."));
         }
 
-        // 🔹 Procesar el pago con PaymentService
-        PaymentRequest request = new PaymentRequest(productoId, description, currency, stripeEmail, paymentMethodId);
         try {
+            // 🔹 Procesar el pago con el producto dinámico
+            PaymentRequest request = new PaymentRequest(producto.getId(), description, currency, stripeEmail, paymentMethodId);
             PaymentResponse response = paymentService.processPayment(request);
+
             session.setAttribute("paymentIntentId", response.paymentIntentId());
             session.setAttribute("productoId", request.productoId());
+
             return ResponseEntity.ok(Map.of("success", true, "paymentId", response.paymentIntentId()));
         } catch (StripeException e) {
             System.err.println("❌ Error en Stripe: " + e.getMessage());
@@ -108,17 +112,21 @@ public class CheckoutController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("success", false, "message", "Ocurrió un error inesperado."));
         }
-
     }
+
     
     @GetMapping("/result")
     public String mostrarResultado(@RequestParam(required = false) String paymentId, HttpSession session, Model model) {
-        Integer productoId = (Integer) session.getAttribute("productoId");
+        // 🔹 Recupera productoId con conversión segura
+        Long productoId = (session.getAttribute("productoId") instanceof Long) 
+            ? (Long) session.getAttribute("productoId") 
+            : null;
 
         model.addAttribute("paymentIntentId", paymentId);
         model.addAttribute("productoId", productoId); // ✅ necesario para que se muestre el botón de descarga
 
         return "result";
     }
+
 }
 

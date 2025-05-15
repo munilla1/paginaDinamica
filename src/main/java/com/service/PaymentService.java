@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import com.model.PaymentEntity;
 import com.model.PaymentRequest;
 import com.model.PaymentResponse;
+import com.model.Producto;
 import com.model.Usuario;
 import com.repository.PaymentRepository;
+import com.repository.ProductoRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -28,13 +30,8 @@ import jakarta.annotation.PostConstruct;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final ProductoRepository productoRepository;
     
-    private final Map<Integer, BigDecimal> preciosProductos = Map.of(
-        1, new BigDecimal("12.00"),
-        2, new BigDecimal("14.00"),
-        3, new BigDecimal("16.00")
-    );
-
     @Value("${stripe.secret.key}")
     private String secretKey;
     
@@ -45,36 +42,29 @@ public class PaymentService {
         Stripe.apiKey = secretKey;
     }
 
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, ProductoRepository productoRepository) {
         this.paymentRepository = paymentRepository;
+        this.productoRepository = productoRepository;
     }
 
     public PaymentResponse processPayment(PaymentRequest request) throws StripeException {
-        System.out.println("📥 Procesando pago para producto ID: " + request.productoId() + ", email: " + request.stripeEmail());
+        System.out.println("📥 Procesando pago para producto ID: " + request.productoId());
+
+        Long productoId = Long.valueOf(request.productoId());
+        Producto producto = productoRepository.findById(productoId)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no válido"));
 
         String currency = request.currency().toLowerCase();
         if (!SUPPORTED_CURRENCIES.contains(currency)) {
             throw new IllegalArgumentException("Moneda no soportada: " + currency);
         }
 
-        // 🔹 Validación del producto
-        if (!preciosProductos.containsKey(request.productoId())) {
-            throw new IllegalArgumentException("Producto no válido.");
-        }
+        BigDecimal precioFijado = producto.getPrecio();
 
-        // 🔹 Obtener el precio fijo del backend
-        BigDecimal precioFijado = preciosProductos.get(request.productoId());
-
-        // 🔹 Depuración: Verificar `paymentMethodId` antes de continuar
-        System.out.println("📥 Procesando pago para producto ID: " + request.productoId());
-        System.out.println("🔹 Email recibido: " + request.stripeEmail());
-        System.out.println("🔹 PaymentMethodId recibido: " + request.paymentMethodId());
-
-        // 🔹 Crear PaymentIntent en Stripe con el monto en centavos
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-            .setAmount(precioFijado.multiply(BigDecimal.valueOf(100)).longValue()) // Convertir a centavos
+            .setAmount(precioFijado.multiply(BigDecimal.valueOf(100)).longValue()) 
             .setCurrency(currency)
-            .setPaymentMethod(request.paymentMethodId()) // ✅ Asegurar que se usa `paymentMethodId`
+            .setPaymentMethod(request.paymentMethodId())
             .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.AUTOMATIC)
             .setConfirm(true)
             .setReturnUrl("http://localhost:8080/result")
@@ -82,22 +72,16 @@ public class PaymentService {
 
         PaymentIntent paymentIntent = PaymentIntent.create(params);
 
-        // 🔹 Depuración: Verifica el estado del PaymentIntent antes de continuar
-        System.out.println("🔹 Estado del PaymentIntent: " + paymentIntent.getStatus());
-
-        // 🔹 Validar que el pago se haya confirmado correctamente antes de continuar
         if (!paymentIntent.getStatus().equals("succeeded")) {
             throw new RuntimeException("El pago no fue confirmado correctamente.");
         }
 
-        // 🔹 Obtener usuario autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Usuario usuario = userDetails.getUsuario();
 
-        // 🔹 Guardar pago en la base de datos
         PaymentEntity paymentEntity = new PaymentEntity();
-        paymentEntity.setProductoId(request.productoId());
+        paymentEntity.setProducto(producto);
         paymentEntity.setCurrency(request.currency());
         paymentEntity.setDescription(request.description());
         paymentEntity.setStatus(paymentIntent.getStatus());
@@ -109,7 +93,6 @@ public class PaymentService {
 
         paymentRepository.save(paymentEntity);
 
-        // 🔹 Retornar respuesta con detalles del pago
         return new PaymentResponse(
             paymentIntent.getId(),
             Optional.ofNullable(paymentIntent.getAmount()).orElse(0L),
@@ -118,4 +101,5 @@ public class PaymentService {
         );
     }
 }
+
 

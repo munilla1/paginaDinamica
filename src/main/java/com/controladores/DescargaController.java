@@ -17,34 +17,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.model.Producto;
+import com.repository.ProductoRepository;
+
 import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/descargar")
 public class DescargaController {
 
-    private final Map<Integer, String> archivosProductos = Map.of(
-        1, "src/main/resources/static/pdfs/infografiaSpring.jpg",
-        2, "src/main/resources/static/pdfs/IA.jpg",
-        3, "src/main/resources/static/pdfs/spring.jpg"
-    );
+    private final ProductoRepository productoRepository;
+
+    public DescargaController(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
 
     @GetMapping
-    public ResponseEntity<Resource> descargar(@RequestParam("productoId") int productoId, HttpSession session) {
-        if (!isPagoValido(session)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    public ResponseEntity<Resource> descargar(@RequestParam("productoId") Long productoId, HttpSession session) {
+        if (!isPagoValido(session)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
+        // 🔹 Obtener el producto desde la base de datos
+        Producto producto = productoRepository.findById(productoId)
+            .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
 
         // 🔐 Invalida la sesión para evitar descargas repetidas
         session.removeAttribute("paymentIntentId");
         session.removeAttribute("productoId");
 
-        return servirArchivo(archivosProductos.get(productoId));
+        return servirArchivo(producto.getRutaArchivo()); // 🔹 Ruta del archivo del producto
     }
-
 
     private boolean isPagoValido(HttpSession session) {
         return session.getAttribute("paymentIntentId") != null;
     }
-
 
     private ResponseEntity<Resource> servirArchivo(String filePathStr) {
         if (filePathStr == null) return ResponseEntity.notFound().build();
@@ -58,9 +65,10 @@ public class DescargaController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filePath.getFileName())
                 .body(resource);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 }
+
 
 

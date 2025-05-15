@@ -3,7 +3,7 @@ package com.model;
 import java.math.BigDecimal;
 
 public record PaymentRequest(
-		int productoId,
+		Long productoId,
         String description,
         String currency,
         String stripeEmail,
