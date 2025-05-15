@@ -2,6 +2,8 @@ package com.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -26,13 +28,18 @@ import jakarta.annotation.PostConstruct;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    
+    private final Map<Integer, BigDecimal> preciosProductos = Map.of(
+        1, new BigDecimal("12.00"),
+        2, new BigDecimal("14.00"),
+        3, new BigDecimal("16.00")
+    );
 
     @Value("${stripe.secret.key}")
     private String secretKey;
     
     private static final Set<String> SUPPORTED_CURRENCIES = Set.of("usd", "eur");
 
-    // Inicializa la clave secreta de Stripe después de construir el bean.
     @PostConstruct
     public void init() {
         Stripe.apiKey = secretKey;
@@ -42,54 +49,72 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    // Procesa un pago basado en la solicitud recibida.
     public PaymentResponse processPayment(PaymentRequest request) throws StripeException {
-        System.out.println("📥 Procesando pago para: " + request.description() + ", email: " + request.stripeEmail());
-        
-        String currency = request.currency().toLowerCase();
+        System.out.println("📥 Procesando pago para producto ID: " + request.productoId() + ", email: " + request.stripeEmail());
 
+        String currency = request.currency().toLowerCase();
         if (!SUPPORTED_CURRENCIES.contains(currency)) {
             throw new IllegalArgumentException("Moneda no soportada: " + currency);
         }
-        
-        // Construye los parámetros para crear un PaymentIntent en Stripe
-        PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                .setAmount(request.amount().multiply(BigDecimal.valueOf(100)).longValue()) // Convierte el monto a centavos
-                .setCurrency(request.currency().toLowerCase()) // Asegúrate de que la moneda esté en minúsculas
-                .setPaymentMethod(request.stripeToken()) // Usa el paymentMethodId que recibiste
-                .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.AUTOMATIC) // Confirmación manual
-                .setConfirm(true) // Confirmación automática
-                .setReturnUrl("http://localhost:8080/result") // URL para redirigir después del pago
-                .build();
 
-        // Envía los parámetros a Stripe para crear un PaymentIntent
+        // 🔹 Validación del producto
+        if (!preciosProductos.containsKey(request.productoId())) {
+            throw new IllegalArgumentException("Producto no válido.");
+        }
+
+        // 🔹 Obtener el precio fijo del backend
+        BigDecimal precioFijado = preciosProductos.get(request.productoId());
+
+        // 🔹 Depuración: Verificar `paymentMethodId` antes de continuar
+        System.out.println("📥 Procesando pago para producto ID: " + request.productoId());
+        System.out.println("🔹 Email recibido: " + request.stripeEmail());
+        System.out.println("🔹 PaymentMethodId recibido: " + request.paymentMethodId());
+
+        // 🔹 Crear PaymentIntent en Stripe con el monto en centavos
+        PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
+            .setAmount(precioFijado.multiply(BigDecimal.valueOf(100)).longValue()) // Convertir a centavos
+            .setCurrency(currency)
+            .setPaymentMethod(request.paymentMethodId()) // ✅ Asegurar que se usa `paymentMethodId`
+            .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.AUTOMATIC)
+            .setConfirm(true)
+            .setReturnUrl("http://localhost:8080/result")
+            .build();
+
         PaymentIntent paymentIntent = PaymentIntent.create(params);
-        
-        // Obtiene el usuario autenticado
+
+        // 🔹 Depuración: Verifica el estado del PaymentIntent antes de continuar
+        System.out.println("🔹 Estado del PaymentIntent: " + paymentIntent.getStatus());
+
+        // 🔹 Validar que el pago se haya confirmado correctamente antes de continuar
+        if (!paymentIntent.getStatus().equals("succeeded")) {
+            throw new RuntimeException("El pago no fue confirmado correctamente.");
+        }
+
+        // 🔹 Obtener usuario autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Usuario usuario = userDetails.getUsuario();
 
-        // Crea una nueva entidad de pago para guardar en la base de datos
+        // 🔹 Guardar pago en la base de datos
         PaymentEntity paymentEntity = new PaymentEntity();
-        paymentEntity.setAmount(request.amount());
+        paymentEntity.setProductoId(request.productoId());
         paymentEntity.setCurrency(request.currency());
         paymentEntity.setDescription(request.description());
         paymentEntity.setStatus(paymentIntent.getStatus());
         paymentEntity.setStripeEmail(request.stripeEmail());
-        paymentEntity.setStripeToken(request.stripeToken()); // Guarda el paymentMethodId (anteriormente stripeToken)
+        paymentEntity.setStripeToken(request.paymentMethodId());
         paymentEntity.setPaymentIntentId(paymentIntent.getId());
         paymentEntity.setCreatedAt(LocalDateTime.now());
         paymentEntity.setUsuario(usuario);
 
-        paymentRepository.save(paymentEntity); // Guarda el pago en la base de datos
+        paymentRepository.save(paymentEntity);
 
-        // Devuelve una respuesta con los detalles del pago
+        // 🔹 Retornar respuesta con detalles del pago
         return new PaymentResponse(
-                paymentIntent.getId(),
-                paymentIntent.getAmount(),
-                request.currency(),
-                paymentIntent.getStatus()
+            paymentIntent.getId(),
+            Optional.ofNullable(paymentIntent.getAmount()).orElse(0L),
+            request.currency(),
+            paymentIntent.getStatus()
         );
     }
 }

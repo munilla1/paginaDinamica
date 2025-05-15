@@ -1,31 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
-    <title>Result Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/result.css}">
+    <title>Pago Exitoso</title>
 </head>
 <body>
-<h2>Transaction Result:</h2>
+    <div class="container">
+        <h1>¡Compra realizada con éxito!</h1>
+        <p>Gracias por tu compra. Ahora puedes descargar tu producto.</p>
 
-<div th:if="${payment != null}">
-    <div style="border: 1px solid #e0e0e0; padding: 20px;">
-        <p><strong>ID:</strong> <span th:text="${payment.id}"></span></p>
-        <p><strong>Amount:</strong> $<span th:text="${payment.amount}"></span></p>
-        <p><strong>Currency:</strong> <span th:text="${payment.currency}"></span></p>
-        <p><strong>Status:</strong> <span th:text="${payment.status}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${payment.stripeEmail}"></span></p>
-        <p><strong>Description:</strong> <span th:text="${payment.description}"></span></p>
-        <p><strong>Created At:</strong> <span th:text="${payment.createdAt}"></span></p>
+        <div class="download-section" th:if="${productoId != null}">
+		    <form id="downloadForm" th:action="@{/descargar}" method="get">
+		        <input type="hidden" name="productoId" th:value="${productoId}" />
+		        <button type="submit" class="custom-button">Descargar Archivo</button>
+		    </form>
+		</div>
+		
+		<script>
+		    document.getElementById("downloadForm").addEventListener("submit", function (e) {
+		        e.preventDefault();
+		
+		        const form = e.target;
+		        const url = form.action + "?productoId=" + form.productoId.value;
+		
+		        // Inicia la descarga del archivo
+		        const a = document.createElement("a");
+		        a.href = url;
+		        a.download = ""; // fuerza descarga
+		        a.style.display = "none";
+		        document.body.appendChild(a);
+		        a.click();
+		        document.body.removeChild(a);
+		
+		        // Espera un poco antes de redirigir (opcional)
+		        setTimeout(() => {
+		            window.location.href = "/infografias";
+		        }, 2000);
+		    });
+		</script>
+
+
+        <p>Si tienes algún problema, contáctanos.</p>
     </div>
-</div>
-<div th:if="${payment == null}">
-    <p>No payment found!</p>
-</div>
-
-<div th:if="${isLoggedIn} and ${payment != null}">
-    <form method="get" action="/view-pdf">
-        <button type="submit">Descargar infografia</button>
-    </form>
-</div>
-
 </body>
 </html>
+

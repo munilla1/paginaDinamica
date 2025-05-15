@@ -17,6 +17,7 @@
         <ul>
             <li><a th:href="@{/pagPrincipalJuego}">Inicio</a></li>
             <li><a th:href="@{/infografias}">Infografias</a></li>
+            <li>|</li>
             <li><a th:href="@{/perfil}" th:if="${session.usuario != null}">Perfil</a></li>
             <li><a th:href="@{/DarDeBaja}" th:if="${session.usuario != null}">Borrar usuario</a></li>
         </ul>
@@ -48,7 +49,8 @@
 	            </div>
 	        </div>
 	    </div>
-	    <form th:action="@{/checkout}" method="get">
+	    <form th:action="@{/checkout(productoId=1)}" method="get">
+	    	<input type="hidden" name="productoId" value="1">
 	        <button type="submit" class="custom-button">Adquirir - 12€</button>
 	    </form>
 	    <div class="card-container">
@@ -60,7 +62,8 @@
 	            </div>
 	        </div>
 	    </div>
-	    <form th:action="@{/checkout}" method="get">
+	    <form th:action="@{/checkout(productoId=2)}" method="get">
+	    	<input type="hidden" name="productoId" value="2">
 	        <button type="submit" class="custom-button">Adquirir - 12€</button>
 	    </form>
 	    <div class="card-container">
@@ -72,7 +75,8 @@
 	            </div>
 	        </div>
 	    </div>
-	    <form th:action="@{/checkout}" method="get">
+	    <form th:action="@{/checkout(productoId=3)}" method="get">
+	        <input type="hidden" name="productoId" value="3">
 	        <button type="submit" class="custom-button">Adquirir - 12€</button>
 	    </form>
 	</div>

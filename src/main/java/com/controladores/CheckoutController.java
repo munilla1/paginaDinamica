@@ -47,92 +47,78 @@ public class CheckoutController {
     private String stripePublicKey;
 
     private final PaymentService paymentService;
+    
+    private final Map<Integer, BigDecimal> preciosProductos = Map.of(
+            1, new BigDecimal("12.00"),
+            2, new BigDecimal("14.00"),
+            3, new BigDecimal("16.00")
+        );
 
     public CheckoutController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
     @GetMapping("/checkout")
-    public String showCheckoutForm(Model model) {
+    public String mostrarCheckout(@RequestParam("productoId") int productoId, Model model) {
+        BigDecimal precio = preciosProductos.get(productoId);
+        if (precio == null) return "error";
+
+        model.addAttribute("productoId", productoId);
+        model.addAttribute("precio", precio);
         model.addAttribute("stripePublicKey", stripePublicKey);
-        List<Currency> allowedCurrencies = List.of(
-                Currency.getInstance("USD"),
-                Currency.getInstance("EUR")
-            );
-        model.addAttribute("currencies", allowedCurrencies);
+        model.addAttribute("currencies", List.of(Currency.getInstance("USD"), Currency.getInstance("EUR")));
         return "checkout";
     }
     
     @PostMapping(value = "/checkout", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> processPaymentJson(@RequestBody Map<String, Object> payload) {
-        try {
-            String description = (String) payload.get("description");
-            BigDecimal amount = new BigDecimal((String) payload.get("amount"));
-            String currency = (String) payload.get("currency");
-            String email = (String) payload.get("email");
-            String paymentMethodId = (String) payload.get("paymentMethodId");
+    public ResponseEntity<?> procesarPago(@RequestBody Map<String, Object> requestBody, HttpSession session) {
+        System.out.println("📥 Datos recibidos en el backend: " + requestBody);
 
-            PaymentRequest request = new PaymentRequest(description, amount, currency, email, paymentMethodId);
-            PaymentResponse response = paymentService.processPayment(request);
+        int productoId = Integer.parseInt(requestBody.get("productoId").toString());
+        String description = requestBody.get("description").toString();
+        String currency = requestBody.get("currency").toString();
+        String stripeEmail = requestBody.get("email") != null ? requestBody.get("email").toString() : "";
+        String paymentMethodId = requestBody.get("paymentMethodId") != null ? requestBody.get("paymentMethodId").toString() : "";
 
-            Map<String, Object> result = new HashMap<>();
-            result.put("success", true);
-            result.put("paymentId", response.paymentIntentId());
-            return ResponseEntity.ok(result);
+        System.out.println("📥 Producto ID recibido: " + productoId);
+        System.out.println("🔹 Email recibido: " + stripeEmail);
+        System.out.println("🔹 PaymentMethodId recibido: " + paymentMethodId);
 
-        } catch (Exception e) {
-            Map<String, Object> error = new HashMap<>();
-            error.put("success", false);
-            error.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+
+        // 🔹 Validación del método de pago
+        if (paymentMethodId == null || paymentMethodId.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("success", false, "message", "Error: Falta el método de pago."));
         }
+
+        // 🔹 Procesar el pago con PaymentService
+        PaymentRequest request = new PaymentRequest(productoId, description, currency, stripeEmail, paymentMethodId);
+        try {
+            PaymentResponse response = paymentService.processPayment(request);
+            session.setAttribute("paymentIntentId", response.paymentIntentId());
+            session.setAttribute("productoId", request.productoId());
+            return ResponseEntity.ok(Map.of("success", true, "paymentId", response.paymentIntentId()));
+        } catch (StripeException e) {
+            System.err.println("❌ Error en Stripe: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("success", false, "message", "Error en el pago: " + e.getMessage()));
+        } catch (Exception e) {
+            System.err.println("❌ Error inesperado: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("success", false, "message", "Ocurrió un error inesperado."));
+        }
+
     }
     
-    @GetMapping("/view-pdf")
-    public ResponseEntity<Resource> viewPdf(HttpSession session) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        boolean isLoggedIn = auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken);
+    @GetMapping("/result")
+    public String mostrarResultado(@RequestParam(required = false) String paymentId, HttpSession session, Model model) {
+        Integer productoId = (Integer) session.getAttribute("productoId");
 
-        if (!isLoggedIn) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        model.addAttribute("paymentIntentId", paymentId);
+        model.addAttribute("productoId", productoId); // ✅ necesario para que se muestre el botón de descarga
 
-        String paymentIntentId = (String) session.getAttribute("paymentIntentId");
-        if (paymentIntentId == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        try {
-            PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
-            if (!"succeeded".equals(paymentIntent.getStatus())) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-            }
-
-            // Ruta del archivo (PDF o imagen)
-            Path filePath = Paths.get("src/main/resources/static/pdfs/infografiaSpring.jpg");
-            // Path filePath = Paths.get("src/main/resources/static/pdfs/infografiaSpring.pdf"); // otro ejemplo
-
-            Resource resource = new UrlResource(filePath.toUri());
-            if (!resource.exists()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            // Detectar tipo de archivo (MIME)
-            String contentType = Files.probeContentType(filePath);
-            if (contentType == null) {
-                contentType = "application/octet-stream"; // por defecto si no se detecta
-            }
-
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType))
-                    .header(HttpHeaders.CONTENT_DISPOSITION,
-                            "attachment; filename=\"" + filePath.getFileName().toString() + "\"")
-                    .body(resource);
-
-        } catch (StripeException | IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        return "result";
     }
 }
 

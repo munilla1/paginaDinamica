@@ -105,5 +105,56 @@ body {
     }
 }
 
+.bienv {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 290px;
+    width: 350px;
+    margin: auto;
+}
+
+li {
+    color: white; /* 🔹 Cambia el color del texto a blanco */
+}
+
+/*----------------------------------------- sidebar ----------------------------------*/
 
         
+.sidebar {
+    position: fixed;
+    right: 80px;
+    top: 150px; /* 🔹 Ajustado más abajo */
+    width: 640px;
+    height: 530px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 2px solid #ffa500;
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
+    padding: 15px;
+    overflow-y: auto;
+    color: white;
+    scrollbar-width: thin; /* 🔹 Scroll compacto */
+}
+
+.LCA{
+	font-weight: bold;
+}
+
+.imagemus{
+	width: 200px;
+}
+
+/* Scroll estilizado */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #ffa500;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}

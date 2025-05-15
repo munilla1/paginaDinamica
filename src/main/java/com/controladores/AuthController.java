@@ -198,6 +198,11 @@ public class AuthController {
     public String vistaDeleteUser(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
         return "DarDeBaja";
     }
+    
+    @GetMapping("/")
+    public String vistaUser(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
+        return "registro-login";
+    }
 }
 
 

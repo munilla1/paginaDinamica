@@ -34,6 +34,7 @@ public class PaymentEntity {
     private String stripeToken;
     private String paymentIntentId;
     private LocalDateTime createdAt;
+    private int productoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id") // nombre de la columna FK en la tabla payments

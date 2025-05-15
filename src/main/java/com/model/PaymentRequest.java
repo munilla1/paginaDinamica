@@ -3,10 +3,10 @@ package com.model;
 import java.math.BigDecimal;
 
 public record PaymentRequest(
+		int productoId,
         String description,
-        BigDecimal amount,
         String currency,
         String stripeEmail,
-        String stripeToken
+        String paymentMethodId
 ) {
 }

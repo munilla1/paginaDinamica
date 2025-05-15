@@ -21,6 +21,7 @@
         <ul>
             <li><a th:href="@{/pagPrincipalJuego}">Inicio</a></li>
             <li><a th:href="@{/infografias}">Infografias</a></li>
+            <li>|</li>
             <li><a th:href="@{/perfil}" th:if="${session.usuario != null}">Perfil</a></li>
             <li><a th:href="@{/DarDeBaja}" th:if="${session.usuario != null}">Borrar usuario</a></li>
         </ul>
@@ -37,6 +38,26 @@
         </div>
     </div>
 </header>
+
+<div class="sidebar">
+    <h3 class="LCA">PROGRAMA LCA FÚTBOL RETURN</h3>
+    <p>El único programa de readaptación online especializado en futbolistas, basado en la evidencia actual y la práctica, diseñado para ayudarte a volver a jugar al fútbol de forma óptima, alcanzando el mismo nivel que antes y sin miedo a recaídas.</p>
+    <iframe src="https://www.youtube.com/embed/9wDmS-faD78?si=pjJ2rGUzhfa3TMqp" 
+                title="Testimonio LCA REHAB" 
+                allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/w-EC8_0y3NM?si=WnBLQvJ56tDe29WX" 
+                title="Testimonio LCA REHAB" 
+                allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/O08tYihpvB8?si=XQXoAA0A19K5NIr2" 
+                title="Testimonio LCA REHAB" 
+                allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/lwZnC8MT7go?si=i6LEzqTceMGuxGCd" 
+                title="Testimonio LCA REHAB" 
+                allowfullscreen></iframe>
+    <p>Somos un equipo especializado en la readaptación de futbolistas tras lesiones de LCA. Este proyecto nació al identificar un problema preocupante: la alta tasa de recaídas al regresar al fútbol, causada muchas veces por el desconocimiento de cómo realizar una readaptación completa y la falta de atención por el sistema de salud. Por eso, decidimos formarnos y especializarnos en este nicho, combinando experiencia práctica y evidencia científica para garantizar una recuperación segura, efectiva y personalizada.</p>
+    <img class="imagemus" th:src="@{/imagenes/mus.png}" alt="Logo">
+    <button type="submit" id="ddboton2" class="btn btn-primary" style="font-weight: bold;">Reservar videollamada de acceso &rarr;</button>
+</div>
     
 
 <video class="video-container" id="video-bg" muted autoplay loop>

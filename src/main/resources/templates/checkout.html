@@ -3,21 +3,22 @@
 <head>
     <title>Checkout Form</title>
     <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" th:href="@{/css/checkout.css}">
 </head>
 <body>
-<h1>Checkout Page</h1>
 
-<form id="payment-form" th:action="@{/checkout}" method="post">
+<form class="container" id="payment-form" th:action="@{/checkout}" method="post">
+
+	<h1>Formulario de pago</h1>
     <!-- Token CSRF -->
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    
+    <input type="hidden" id="productoId" name="productoId" th:value="${productoId}"/>
 
-    <label>Description:</label>
-    <input type="text" id="description" placeholder="Enter a description"/><br/>
+    <label>Descripción:</label>
+    <input type="text" id="description" placeholder="Introduce una descripción"/><br/>
 
-    <label>Amount:</label>
-    <input type="text" id="amount" placeholder="Enter amount in USD (e.g., 100)"/><br/>
-
-    <label>Currency:</label>
+    <label>Moneda:</label>
     <select id="currency">
         <option th:each="currency : ${currencies}"
                 th:value="${currency.currencyCode}"
@@ -26,17 +27,17 @@
     </select><br/>
 
     <label>Email:</label>
-    <input type="email" id="email" placeholder="Enter your email"/><br/>
+    <input type="email" id="email" placeholder="Introduce tu email"/><br/>
 
-    <label>Card Info:</label>
+    <label>Información de la tarjeta:</label>
     <div id="card-element" style="border: 1px solid #ccc; padding: 10px;"></div>
     <div id="card-errors" role="alert" style="color: red;"></div><br/>
 
-    <button type="submit">Pay</button>
+    <button class="custom-button" type="submit">Pagar</button>
 </form>
 
 <script>
-    const stripe = Stripe("pk_test_51RMXBa4DXEGdL4YDZfpzre54KnxxTLrIkqui8KNg10suPsIJVbiTlo4Pn3g1rJ9FAm71F98fwbrT44oIjosz1h1l00oNSSPSAT"); // tu public key
+    const stripe = Stripe("pk_test_51RMXBa4DXEGdL4YDZfpzre54KnxxTLrIkqui8KNg10suPsIJVbiTlo4Pn3g1rJ9FAm71F98fwbrT44oIjosz1h1l00oNSSPSAT"); 
     const elements = stripe.elements();
     const cardElement = elements.create('card');
     cardElement.mount('#card-element');
@@ -55,34 +56,40 @@
 
         if (error) {
             document.getElementById('card-errors').textContent = error.message;
+            return; // 🔹 Detiene el proceso si hay un error con la tarjeta
+        }
+
+        // 🔹 Agrega estos console.log() para verificar los datos antes de enviarlos al backend
+        console.log("📤 Enviando pago con:");
+        console.log("🔹 Email: " + document.getElementById('email').value);
+        console.log("🔹 PaymentMethodId: " + paymentMethod.id);
+
+        const csrfToken = document.querySelector('[name="_csrf"]').value;
+
+        const response = await fetch('/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken  
+            },
+            body: JSON.stringify({
+                productoId: document.getElementById('productoId').value,
+                description: document.getElementById('description').value,
+                currency: document.getElementById('currency').value,
+                email: document.getElementById('email').value,
+                paymentMethodId: paymentMethod.id
+            })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            window.location.href = "/result?paymentId=" + result.paymentId;
         } else {
-            // Obtener el token CSRF
-            const csrfToken = document.querySelector('[name="_csrf"]').value;
-
-            // Envía los datos al servidor
-            const response = await fetch('/checkout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken  // Incluye el token CSRF en los encabezados
-                },
-                body: JSON.stringify({
-                    description: document.getElementById('description').value,
-                    amount: document.getElementById('amount').value,
-                    currency: document.getElementById('currency').value,
-                    email: document.getElementById('email').value,
-                    paymentMethodId: paymentMethod.id
-                })
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                window.location.href = "/result?paymentId=" + result.paymentId;
-            } else {
-                alert("Error: " + result.message);
-            }
+            alert("Error: " + result.message);
         }
     });
+
 </script>
 </body>
 </html>
+
