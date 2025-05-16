@@ -56,7 +56,7 @@
         </div>
         
         <div>
-	    	<img class="bienv" th:src="@{/imagenes/bienv.png}">
+	    	<img class="bienv" th:src="@{/imagenes/bie.png}">
 	    </div>
 
         <div class="form">
@@ -73,6 +73,13 @@
             </form>
         </div>
     </div>
+    
+    <div th:if="${mensaje != null}" class="contenedor-mensaje">
+	    <div class="cont">
+	        <img class="telefono" th:src="@{/imagenes/palomita-correcto.png}">
+	        <h3 class="mensajeconf" th:text="${mensaje}"></h3>
+	    </div>
+	</div>
     
     <div class="container-botonJugar">
 	    <a class="botonJugar" th:href="@{/pagPrincipalJuego}" th:if="${session.usuario != null}">Entrar  🚀</a>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.model.ERole;
 import com.model.PaymentRequest;
@@ -49,7 +50,7 @@ public class AuthController {
     @GetMapping("/registro-login")
     public String showLoginForm(@RequestParam(value = "error", required = false) String error,
                                 @AuthenticationPrincipal CustomUserDetails usuario,
-                                Model model) {
+                                Model model, HttpServletRequest request) {
 
         // Agregar mensaje de error si existe
         if (error != null) {
@@ -60,14 +61,14 @@ public class AuthController {
         if (usuario != null) {
             System.out.println("Usuario autenticado: " + usuario.getUsername());
             model.addAttribute("usuario", usuario);
+            model.addAttribute("accion", "login");
         }
-
         return "registro-login";
     }
 
     
     @GetMapping("/accesoCorrecto")
-    public String accesoCorrecto(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
+    public String accesoCorrecto(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model, HttpServletRequest request) {
         if (usuario == null) {
             return "redirect:/registro-login";
         }
@@ -77,7 +78,7 @@ public class AuthController {
     }
     
     @GetMapping("/pagPrincipalJuego")
-    public String vistaPagPrincipal(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
+    public String vistaPagPrincipal(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model, HttpServletRequest request) {
         if (usuario == null) {
             return "redirect:/registro-login";
         }
@@ -117,32 +118,43 @@ public class AuthController {
                                    @RequestParam String correo,
                                    @RequestParam String password,
                                    @AuthenticationPrincipal UserDetails userDetails,
-                                   Model model) {
+                                   HttpServletRequest request, // 🔹 Necesario para la sesión
+                                   HttpSession session,
+                                   Model model,
+                                   RedirectAttributes redirectAttributes) {
 
         Usuario usuario = usuarioService.findByUsername(userDetails.getUsername());
+
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no encontrado.");
+            return "perfil";
+        }
 
         usuario.setUsername(username);
         usuario.setCorreo(correo);
-        usuario.setPassword(passwordEncoder.encode(password)); // ⚠️ Codifica la nueva contraseña
+        usuario.setPassword(passwordEncoder.encode(password));
 
-        usuarioService.save(usuario); // Esto hace un update si el usuario ya existe
+        usuarioService.save(usuario);
 
         model.addAttribute("usuario", usuario);
-        model.addAttribute("mensaje", "Perfil actualizado correctamente.");
+        model.addAttribute("accion", "modificar");
+        
+        session.invalidate();
+        
+        // 🔹 Agregar mensaje de éxito
+        redirectAttributes.addFlashAttribute("mensaje", "Perfil actualizado correctamente. Por seguridad, se ha cerrado la sesión.");
 
-        return "perfil"; // O vuelve a cargar el formulario si prefieres
+        return "redirect:/registro-login";
     }
 
-	/*
-	 * @GetMapping("/perfil") public String userProfile(Model
-	 * model, @AuthenticationPrincipal UserDetails userDetails) { Usuario usuario =
-	 * usuarioService.findByUsername(userDetails.getUsername());
-	 * model.addAttribute("usuario", usuario); return "perfil"; }
-	 */
     
     @GetMapping("/infografias")
-    public String userInfografias(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Usuario usuario = usuarioService.findByUsername(userDetails.getUsername());
+    public String userInfografias(Model model, HttpSession session, HttpServletRequest request) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/login"; // 🔹 Evita que usuarios sin sesión accedan
+        }
         model.addAttribute("usuario", usuario);
         return "infografias";
     }
@@ -152,9 +164,12 @@ public class AuthController {
                              @RequestParam String username,
                              @RequestParam String contrasenaIngresada,
                              Model model,
+                             HttpSession session,
                              HttpServletRequest request,
                              HttpServletResponse response) {
-
+    	
+    	Usuario usuario = (Usuario) session.getAttribute("usuario");
+    	
         // Verificación de identidad
         if (!userDetails.getUsername().equals(username)) {
             model.addAttribute("error", "No puedes eliminar otro usuario que no seas tú.");
@@ -162,7 +177,7 @@ public class AuthController {
         }
 
         // Obtener usuario
-        Usuario usuario = usuarioService.findByUsername(username);
+        usuarioService.findByUsername(username);
         if (usuario == null) {
             model.addAttribute("error", "Usuario no encontrado.");
             return "perfil";
@@ -179,7 +194,7 @@ public class AuthController {
 
         // Invalida sesión y contexto de seguridad
         SecurityContextHolder.clearContext();
-        HttpSession session = request.getSession(false);
+        request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
@@ -195,7 +210,8 @@ public class AuthController {
     }
     
     @GetMapping("/")
-    public String vistaUser(@AuthenticationPrincipal CustomUserDetails usuario, HttpSession session, Model model) {
+    public String vistaUser(@AuthenticationPrincipal CustomUserDetails usuario, HttpServletRequest request, HttpSession session, Model model) {
+
         return "registro-login";
     }
 }

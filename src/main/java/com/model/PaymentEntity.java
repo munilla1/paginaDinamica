@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "payments")
 public class PaymentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payments_seq_gen")
+    @SequenceGenerator(name = "payments_seq_gen", sequenceName = "payments_seq", allocationSize = 1)
     private Long id;
     private BigDecimal amount;
     private String description;

@@ -41,20 +41,27 @@
             .then(response => response.json())
             .then(productos => {
                 let lista = document.getElementById("productosComprados");
-                lista.innerHTML = productos.map(producto =>
-                    `<li>${producto.nombre} - ${producto.precio}€</li>`
-                ).join("");
+
+                // 🔹 Verifica que productos sea un array antes de usar .map()
+                if (!Array.isArray(productos) || productos.length === 0) {
+                    lista.innerHTML = "<li>No has comprado ningún producto aún.</li>";
+                } else {
+                    lista.innerHTML = productos.map(producto =>
+                        `<li>${producto.nombre} - ${producto.precio}€</li>`
+                    ).join("");
+                }
             })
             .catch(error => console.error("Error al cargar los productos:", error));
     });
 </script>
+
 
 <div class="contenedor-perfil">
     <div class="productos-comprados">
 	    <h1>Bienvenido a tu perfil</h1>
 	    <h2>Productos comprados:</h2>
 	    <ul>
-	        <li th:if="${productosComprados.empty}" class="empty-message">
+	        <li th:if="${productosComprados == null or productosComprados.empty}" class="empty-message">
 	            No has comprado ningún producto aún.
 	        </li>
 	        <li th:each="producto : ${productosComprados}">

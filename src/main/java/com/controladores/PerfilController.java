@@ -1,5 +1,6 @@
 package com.controladores;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,8 @@ import com.model.Usuario;
 import com.repository.PaymentRepository;
 import com.service.CustomUserDetails;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/perfil")
 public class PerfilController {
@@ -26,12 +29,17 @@ public class PerfilController {
     }
 
     @GetMapping
-    public String mostrarPerfil(Authentication authentication, Model model) {
+    public String mostrarPerfil(Authentication authentication, HttpServletRequest request, Model model) {
         Usuario usuario = ((CustomUserDetails) authentication.getPrincipal()).getUsuario();
 
         List<Producto> productosComprados = paymentRepository.findByUsuario(usuario).stream()
             .map(PaymentEntity::getProducto)
             .collect(Collectors.toList());
+        
+     // 🔹 Si la lista es null, inicialízala vacía para evitar errores en Thymeleaf
+        if (productosComprados == null) {
+            productosComprados = new ArrayList<>();
+        }
 
         model.addAttribute("productosComprados", productosComprados);
         return "perfil"; // 🔹 Renderiza perfil.html con los datos cargados
