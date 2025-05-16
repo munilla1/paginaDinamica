@@ -19,8 +19,8 @@
     <img th:src="@{/imagenes/mus.png}" alt="Logo" class="logo">
     <nav class="menu">
         <ul>
-            <li><a th:href="@{/pagPrincipalJuego}">Inicio</a></li>
-            <li><a th:href="@{/infografias}">Infografias</a></li>
+            <li><a th:href="@{/pagPrincipalJuego}" th:if="${session.usuario != null}">Inicio</a></li>
+            <li><a th:href="@{/infografias}" th:if="${session.usuario != null}">Infografias</a></li>
             <li>|</li>
             <li><a th:href="@{/perfil}" th:if="${session.usuario != null}">Perfil</a></li>
         </ul>
@@ -38,9 +38,13 @@
     </div>
 </header>
 
+<div>
+	<img class="sinfo" th:src="@{/imagenes/sinfo.png}">
+</div>
+
 <div class="sidebar">
     <h3 class="LCA">PROGRAMA LCA FÚTBOL RETURN</h3>
-    <p>El único programa de readaptación online especializado en futbolistas, basado en la evidencia actual y la práctica, diseñado para ayudarte a volver a jugar al fútbol de forma óptima, alcanzando el mismo nivel que antes y sin miedo a recaídas.</p>
+    <p><br>El único programa de readaptación online especializado en futbolistas, basado en la evidencia actual y la práctica, diseñado para ayudarte a volver a jugar al fútbol de forma óptima, alcanzando el mismo nivel que antes y sin miedo a recaídas.</p>
     <iframe src="https://www.youtube.com/embed/9wDmS-faD78?si=pjJ2rGUzhfa3TMqp" 
                 title="Testimonio LCA REHAB" 
                 allowfullscreen></iframe>
@@ -53,9 +57,20 @@
     <iframe src="https://www.youtube.com/embed/lwZnC8MT7go?si=i6LEzqTceMGuxGCd" 
                 title="Testimonio LCA REHAB" 
                 allowfullscreen></iframe>
-    <p><br>Somos un equipo especializado en la readaptación de futbolistas tras lesiones de LCA. Este proyecto nació al identificar un problema preocupante: la alta tasa de recaídas al regresar al fútbol, causada muchas veces por el desconocimiento de cómo realizar una readaptación completa y la falta de atención por el sistema de salud. Por eso, decidimos formarnos y especializarnos en este nicho, combinando experiencia práctica y evidencia científica para garantizar una recuperación segura, efectiva y personalizada.</p>
+    <p>Somos un equipo especializado en la readaptación de futbolistas tras lesiones de LCA. Este proyecto nació al identificar un problema preocupante: la alta tasa de recaídas al regresar al fútbol, causada muchas veces por el desconocimiento de cómo realizar una readaptación completa y la falta de atención por el sistema de salud. Por eso, decidimos formarnos y especializarnos en este nicho, combinando experiencia práctica y evidencia científica para garantizar una recuperación segura, efectiva y personalizada.</p>
     <img class="imagemus" th:src="@{/imagenes/mus.png}" alt="Logo">
     <button type="submit" id="ddboton2" class="btn btn-primary" style="font-weight: bold;">Reservar videollamada de acceso &rarr;</button>
+    <div class="contacto">
+	    <p>
+	        <img class="icono-red" th:src="@{/imagenes/whats.png}" alt="WhatsApp">
+	        +34 604 94 49 97
+	        <a href="https://www.instagram.com/muni.rehab" target="_blank">
+	            <img class="icono-red" th:src="@{/imagenes/inst.png}" alt="Instagram">
+	            muni.rehab
+	        </a>
+	    </p>
+	</div>
+
 </div>
     
 

@@ -137,6 +137,11 @@ li {
     scrollbar-width: thin; /* 🔹 Scroll compacto */
 }
 
+.sinfo {
+	position: fixed;
+    left: 70px;
+}
+
 .LCA{
 	font-weight: bold;
 }
@@ -144,6 +149,25 @@ li {
 .imagemus{
 	width: 200px;
 }
+
+.icono-red {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.contacto p {
+	padding-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contacto a img {
+    margin-left: auto;
+}
+
 
 /* Scroll estilizado */
 .sidebar::-webkit-scrollbar {

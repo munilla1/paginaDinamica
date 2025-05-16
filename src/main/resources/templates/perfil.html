@@ -16,8 +16,8 @@
     <img th:src="@{/imagenes/mus.png}" alt="Logo" class="logo">
     <nav class="menu">
         <ul>
-            <li><a th:href="@{/pagPrincipalJuego}">Inicio</a></li>
-            <li><a th:href="@{/infografias}">Infografias</a></li>
+            <li><a th:href="@{/pagPrincipalJuego}" th:if="${session.usuario != null}">Inicio</a></li>
+            <li><a th:href="@{/infografias}" th:if="${session.usuario != null}">Infografias</a></li>
             <li>|</li>
             <li><a th:href="@{/perfil}" th:if="${session.usuario != null}">Perfil</a></li>
         </ul>
