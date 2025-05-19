@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Checkout Form</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" th:href="@{/css/checkout.css}">
+</head>
+<body>
+
+<form class="container" id="payment-form" th:action="@{/checkout}" method="post">
+
+	<h1>Formulario de pago</h1>
+    <!-- Token CSRF -->
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    
+    <input type="hidden" id="productoId" name="productoId" th:value="${productoId}"/>
+
+    <label>Descripción:</label>
+    <input type="text" id="description" placeholder="Introduce una descripción"/><br/>
+
+    <label>Moneda:</label>
+    <select id="currency">
+        <option th:each="currency : ${currencies}"
+                th:value="${currency.currencyCode}"
+                th:text="${currency.currencyCode}">
+        </option>
+    </select><br/>
+
+    <label>Email:</label>
+    <input type="email" id="email" placeholder="Introduce tu email"/><br/>
+
+    <label>Información de la tarjeta:</label>
+    <div id="card-element"></div>
+    <div id="card-errors" role="alert" style="color: red;"></div><br/>
+
+    <button class="custom-button" type="submit">Pagar</button>
+</form>
+
+<script>
+    const stripe = Stripe("pk_test_51RMXBa4DXEGdL4YDZfpzre54KnxxTLrIkqui8KNg10suPsIJVbiTlo4Pn3g1rJ9FAm71F98fwbrT44oIjosz1h1l00oNSSPSAT"); 
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const { paymentMethod, error } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+            billing_details: {
+                email: document.getElementById('email').value
+            }
+        });
+
+        if (error) {
+            document.getElementById('card-errors').textContent = error.message;
+            return; // 🔹 Detiene el proceso si hay un error con la tarjeta
+        }
+
+        // 🔹 Agrega estos console.log() para verificar los datos antes de enviarlos al backend
+        console.log("📤 Enviando pago con:");
+        console.log("🔹 Email: " + document.getElementById('email').value);
+        console.log("🔹 PaymentMethodId: " + paymentMethod.id);
+
+        const csrfToken = document.querySelector('[name="_csrf"]').value;
+
+        const response = await fetch('/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken  
+            },
+            body: JSON.stringify({
+                productoId: document.getElementById('productoId').value,
+                description: document.getElementById('description').value,
+                currency: document.getElementById('currency').value,
+                email: document.getElementById('email').value,
+                paymentMethodId: paymentMethod.id
+            })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            window.location.href = "/result?paymentId=" + result.paymentId;
+        } else {
+            alert("Error: " + result.message);
+        }
+    });
+
+</script>
+</body>
+</html>
+

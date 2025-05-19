@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/result.css}">
+    <title>Pago Exitoso</title>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Compra realizada con éxito!</h1>
+        <p>Gracias por tu compra. Ahora puedes descargar tu producto.</p>
+
+        <div class="download-section" th:if="${productoId != null}">
+		    <form id="downloadForm" th:action="@{/descargar}" method="get">
+		        <input type="hidden" name="productoId" th:value="${productoId}" />
+		        <button type="submit" class="custom-button">Descargar Archivo</button>
+		    </form>
+		</div>
+		
+		<script>
+		    document.getElementById("downloadForm").addEventListener("submit", function (e) {
+		        e.preventDefault();
+		
+		        const form = e.target;
+		        const url = form.action + "?productoId=" + form.productoId.value;
+		
+		        // Inicia la descarga del archivo
+		        const a = document.createElement("a");
+		        a.href = url;
+		        a.download = ""; // fuerza descarga
+		        a.style.display = "none";
+		        document.body.appendChild(a);
+		        a.click();
+		        document.body.removeChild(a);
+		
+		        // Espera un poco antes de redirigir (opcional)
+		        setTimeout(() => {
+		            window.location.href = "/infografias";
+		        }, 2000);
+		    });
+		</script>
+
+
+        <p>Si tienes algún problema, contáctanos.</p>
+    </div>
+</body>
+</html>
+
