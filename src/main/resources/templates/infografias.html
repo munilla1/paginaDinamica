@@ -39,44 +39,74 @@
     </video>
     
     <div class="cartas">
+    	<form th:action="@{/checkout(productoId=6)}" method="get">
+	    	<input type="hidden" name="productoId" value="6">
+	        <button type="submit" class="custom-button-pack">PACK AHORRO<br>🔻<br>Adquirir todo - 19,99€</button>
+	    </form>
 	    <div class="card-container">
 	        <div class="card">
 	            <img th:src="@{/imagenes/balon.jpg}" alt="Imagen 1">
 	            <div class="card-content">
-	                <h2>Título 1</h2>
-	                <p>Descripción interesante de la carta 1.</p>
+	                <h2>Herramientas de Alto Rendimiento para Entrenadores</h2>
+	                <p>Organiza, monitoriza y optimiza tus sesiones de entrenamiento con infografías descargables basadas en datos reales. Desde planificación de microciclos y tareas, hasta control de carga, bienestar y lesiones, todo lo que un entrenador necesita en un solo lugar.</p>
 	            </div>
 	        </div>
 	    </div>
 	    <form th:action="@{/checkout(productoId=1)}" method="get">
 	    	<input type="hidden" name="productoId" value="1">
-	        <button type="submit" class="custom-button">Adquirir - 12€</button>
+	        <button type="submit" class="custom-button">Adquirir - 9,99€</button>
 	    </form>
 	    <div class="card-container">
 	        <div class="card">
 	            <img th:src="@{/imagenes/cesto.jpg}" alt="Imagen 2">
 	            <div class="card-content">
-	                <h2>Título 2</h2>
-	                <p>Texto con información relevante.</p>
+	                <h2>Ciencia y Entrenamiento en Formato Visual</h2>
+	                <p>Accede a una colección de infografías basadas en evidencia científica sobre fuerza, hipertrofia, prevención de lesiones, nutrición y recuperación. Una herramienta visual y práctica para entrenadores personales, preparadores físicos y profesionales del deporte que buscan comunicar de forma clara, actual y efectiva.</p>
 	            </div>
 	        </div>
 	    </div>
 	    <form th:action="@{/checkout(productoId=2)}" method="get">
 	    	<input type="hidden" name="productoId" value="2">
-	        <button type="submit" class="custom-button">Adquirir - 14€</button>
+	        <button type="submit" class="custom-button">Adquirir - 5,99€</button>
 	    </form>
 	    <div class="card-container">
 	        <div class="card">
 	            <img th:src="@{/imagenes/golf.jpg}" alt="Imagen 3">
 	            <div class="card-content">
-	                <h2>Título 3</h2>
-	                <p>Detalles llamativos sobre la carta.</p>
+	                <h2>Control Inteligente de la Carga de Entrenamiento</h2>
+	                <p>Monitorea y analiza la percepción del esfuerzo diario y crónico de tus deportistas. Optimiza el rendimiento, reduce el riesgo de lesiones y toma decisiones basadas en datos objetivos y subjetivos. Una herramienta esencial para entrenadores que buscan una planificación más precisa y personalizada.</p>
 	            </div>
 	        </div>
 	    </div>
 	    <form th:action="@{/checkout(productoId=3)}" method="get">
 	        <input type="hidden" name="productoId" value="3">
-	        <button type="submit" class="custom-button">Adquirir - 16€</button>
+	        <button type="submit" class="custom-button">Adquirir - 7,99€</button>
+	    </form>
+	    <div class="card-container">
+	        <div class="card">
+	            <img th:src="@{/imagenes/ejer.jpeg}" alt="Imagen 4">
+	            <div class="card-content">
+	                <h2>Programa de Entrenamiento y Optimización Física</h2>
+	                <p>El documento es un recopilatorio estructurado de ejercicios y protocolos de entrenamiento físico y técnico. Está enfocado en la mejora del rendimiento deportivo a través de diversas metodologías, incluyendo activación neuromuscular, entrenamiento de fuerza, movilidad, propiocepción y ejercicios tácticos. Se abordan distintas zonas de trabajo, como la zona de porteros, ejercicios de fuerza específica, resistencia y velocidad, además de sesiones de activación preventiva.</p>
+	            </div>
+	        </div>
+	    </div>
+	    <form th:action="@{/checkout(productoId=4)}" method="get">
+	    	<input type="hidden" name="productoId" value="4">
+	        <button type="submit" class="custom-button">Adquirir - 6,99€</button>
+	    </form>
+	    <div class="card-container">
+	        <div class="card">
+	            <img th:src="@{/imagenes/entrenamiento.jpg}" alt="Imagen 5">
+	            <div class="card-content">
+	                <h2>Registro y Análisis de Wellness Deportivo</h2>
+	                <p>Seguimiento y análisis de datos de bienestar de jugadores durante una temporada deportiva. Está estructurado por microciclos y sesiones, permitiendo registrar información clave sobre el estado físico y recuperación de los atletas. Incluye métricas de wellness diario, wellness crónico y wellness acumulado, que ayudan a evaluar la carga de entrenamiento y la respuesta del cuerpo a lo largo del tiempo.</p>
+	            </div>
+	        </div>
+	    </div>
+	    <form th:action="@{/checkout(productoId=5)}" method="get">
+	    	<input type="hidden" name="productoId" value="5">
+	        <button type="submit" class="custom-button">Adquirir - 7,99€</button>
 	    </form>
 	</div>
     

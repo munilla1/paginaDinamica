@@ -86,6 +86,12 @@ public class AuthController {
         model.addAttribute("usuario", usuario);
         return "pagPrincipalJuego";
     }
+    
+    // Método privado para validar contraseña
+    private boolean isPasswordStrong(String password) {
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        return password.matches(regex);
+    }
 
     @PostMapping("/guardar")
     public String registerUser(@RequestParam String username,
@@ -94,6 +100,11 @@ public class AuthController {
                                Model model) {
         if (usuarioService.existsByUsername(username)) {
             model.addAttribute("error", "El nombre de usuario ya está en uso.");
+            return "registro-login";
+        }
+        
+        if (!isPasswordStrong(password)) {
+            model.addAttribute("error", "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.");
             return "registro-login";
         }
         

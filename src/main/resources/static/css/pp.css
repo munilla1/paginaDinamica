@@ -111,6 +111,35 @@
     background: linear-gradient(135deg, #d35400, #b03a2e); /* Más cálido en el hover */
 }
 
+.custom-button-pack {
+    background: linear-gradient(135deg, #3498db, #2ecc71);
+    border: none;
+    padding: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: block;
+    margin: 20px auto; /* Centra el botón */
+    width: 320px; /* Misma anchura que la primera carta */
+    box-shadow: 0 10px 25px rgba(52, 152, 219, 0.6);
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+    .custom-button-pack {
+        width: 90%; /* Se adapta en pantallas más pequeñas */
+    }
+}
+
+.custom-button-pack:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(46, 204, 113, 0.5);
+    background: linear-gradient(135deg, #2ecc71, #27ae60); /* Más fresco en el hover */
+}
 
 
 
